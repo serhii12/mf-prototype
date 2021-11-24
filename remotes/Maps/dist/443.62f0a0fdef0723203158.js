@@ -1,0 +1,1 @@
+(self.webpackChunkmaps=self.webpackChunkmaps||[]).push([[443],{443:(e,n,s)=>{"use strict";s.r(n),s.d(n,{mount:()=>u});var a=s(271),r=s.n(a),t=s(650),m=s.n(t),u=function(e){m().render(r().createElement(r().Fragment,null,"This is maps remote"),e)}}}]);

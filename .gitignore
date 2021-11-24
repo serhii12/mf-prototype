@@ -1,0 +1,7 @@
+###< PHPStorm ###
+.idea
+
+###> frontend ###
+/container/node_modules
+/remotes/**/node_modules
+/storybook
