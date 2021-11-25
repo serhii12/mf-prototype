@@ -1,11 +1,14 @@
 import React, { useRef, useEffect } from 'react';
-import { mount as remoteMount } from 'maps/MapsApp';
 
 export default () => {
   const ref = useRef(null);
 
   useEffect(() => {
-    remoteMount(ref.current);
+    import('maps/MapsApp')
+      .then(({ mount }) => mount(ref.current))
+      .catch(() => {
+        throw new Error('MapsApp remote failed to load!');
+      });
   }, []);
 
   return <div ref={ref} />;

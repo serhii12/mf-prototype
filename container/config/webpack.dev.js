@@ -12,20 +12,16 @@ const devConfig = {
     open: true,
     historyApiFallback: {
       index: 'index.html',
-    }
+    },
   },
   output: {
     publicPath: 'http://localhost:3000/'
-  },
-  experiments: {
-    topLevelAwait: true,
   },
   plugins: [
     new ModuleFederationPlugin({
       name: 'container',
       remotes: {
         maps: 'maps@http://localhost:3100/remoteEntry.js',
-        "customers": "customers@http://localhost:3200/remoteEntry.js"
       },
       shared: packageJson.dependencies,
     }),

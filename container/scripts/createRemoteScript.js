@@ -121,6 +121,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
+const { MFLiveReloadPlugin } = require("@module-federation/fmr");
 
 const prodConfig = {
     mode: 'production',
@@ -129,7 +130,10 @@ const prodConfig = {
         publicPath: './'
     },
     // Rules of how webpack will take our files, complie & bundle them for the browser
-    plugins: [    new ModuleFederationPlugin(
+    plugins: [      new MFLiveReloadPlugin({
+      port: 3000,
+      container: 'container'
+    }),  new ModuleFederationPlugin(
         {
             name: '${variables['remote_name'].toLowerCase()}',
             filename:
@@ -187,20 +191,22 @@ const prodConfig = {
       `${rootDir}/container/src/remotes/${capitalize(variables['remote_name'])}Remote/${capitalize(
         variables['remote_name']
       )}Remote.jsx`,
-      `import { mount as remoteMount } from '${variables['remote_name'].toLowerCase()}/${capitalize(
+      `import React, { useRef, useEffect } from 'react';
+        export default () => {
+          const ref = useRef(null);
+        
+          useEffect(() => {
+            import('${variables['remote_name'].toLowerCase()}/${capitalize(
         variables['remote_name']
-      )}App';
-      import React, { useRef, useEffect } from 'react';
-      
-      export default () => {
-        const ref = useRef(null);
-      
-        useEffect(() => {
-          remoteMount(ref.current);
-        }, []);
-      
-        return <div ref={ref} />;
-      };
+      )}App')
+              .then(({ mount }) => mount(ref.current))
+              .catch(() => {
+                throw new Error('${capitalize(variables['remote_name'])} remote failed to load!');
+              });
+          }, []);
+        
+          return <div ref={ref} />;
+        };
 `,
       function (err) {
         if (err) {
