@@ -1,5 +1,5 @@
 {
-  "name": "maps",
+  "name": "@maps",
   "version": "1.0.0",
   "scripts": {
     "start": "webpack serve --config config/webpack.dev.js",
@@ -19,6 +19,7 @@
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.12.1",
+    "@module-federation/fmr": "0.0.7",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^10.0.0",

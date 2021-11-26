@@ -1,7 +1,12 @@
 const fs = require('fs-extra');
 const path = require('path');
 const rootDir = path.resolve('../');
-const variables = {};
+const variables = {
+  remote_name: process.env.npm_config_remote_name,
+  on_port: process.env.npm_config_on_port,
+};
+
+console.log(variables);
 
 const colors = {
   red: '\x1b[31m',
@@ -63,6 +68,7 @@ const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const { MFLiveReloadPlugin } = require("@module-federation/fmr");
 
 const devConfig = {
     mode: 'development',
@@ -78,7 +84,10 @@ const devConfig = {
         publicPath: 'http://localhost:${variables['on_port']}/'
     },
     // Rules of how webpack will take our files, complie & bundle them for the browser
-    plugins: [    new ModuleFederationPlugin(
+    plugins: [    new MFLiveReloadPlugin({
+      port: 3000,
+      container: 'container'
+    }),new ModuleFederationPlugin(
         {
             name: '${variables['remote_name'].toLowerCase()}',
             filename:
@@ -121,7 +130,6 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
-const { MFLiveReloadPlugin } = require("@module-federation/fmr");
 
 const prodConfig = {
     mode: 'production',
@@ -130,10 +138,7 @@ const prodConfig = {
         publicPath: './'
     },
     // Rules of how webpack will take our files, complie & bundle them for the browser
-    plugins: [      new MFLiveReloadPlugin({
-      port: 3000,
-      container: 'container'
-    }),  new ModuleFederationPlugin(
+    plugins: [ new ModuleFederationPlugin(
         {
             name: '${variables['remote_name'].toLowerCase()}',
             filename:
@@ -194,7 +199,7 @@ const prodConfig = {
       `import React, { useRef, useEffect } from 'react';
         export default () => {
           const ref = useRef(null);
-        
+
           useEffect(() => {
             import('${variables['remote_name'].toLowerCase()}/${capitalize(
         variables['remote_name']
@@ -204,7 +209,7 @@ const prodConfig = {
                 throw new Error('${capitalize(variables['remote_name'])} remote failed to load!');
               });
           }, []);
-        
+
           return <div ref={ref} />;
         };
 `,
@@ -227,6 +232,24 @@ const prodConfig = {
           throw new Error(err);
         }
       }
+    );
+  }
+
+  const packageJSON = fs.readJsonSync('./package.json');
+
+  if (packageJSON) {
+    fs.writeJsonSync(
+      './package.json',
+      Object.assign(packageJSON, {
+        scripts: {
+          ...packageJSON.scripts,
+          [`remotes:${variables['remote_name'].toLowerCase()}`]: `concurrently -n "${variables[
+            'remote_name'
+          ].toLowerCase()},container"  -c "bgBlue.bold,bgMagenta.bold,bgGreen.bold" "cd ../remotes/${capitalize(
+            variables['remote_name']
+          )} && npm run start" "npm run start"`,
+        },
+      })
     );
   }
 } else {

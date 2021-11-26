@@ -4,6 +4,7 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const { MFLiveReloadPlugin } = require("@module-federation/fmr");
 
 const devConfig = {
   mode: 'development',
@@ -18,6 +19,10 @@ const devConfig = {
     publicPath: 'http://localhost:3100/'
   },
   plugins: [
+    new MFLiveReloadPlugin({
+      port: 3000,
+      container: 'container'
+    }),
     new ModuleFederationPlugin({
       name: 'maps',
       filename: 'remoteEntry.js',

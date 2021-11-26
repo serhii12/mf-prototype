@@ -21,7 +21,7 @@ const devConfig = {
     new ModuleFederationPlugin({
       name: 'container',
       remotes: {
-        maps: 'maps@http://localhost:3100/remoteEntry.js',
+        maps: 'maps@http://localhost:3100/remoteEntry.js'
       },
       shared: packageJson.dependencies,
     }),
