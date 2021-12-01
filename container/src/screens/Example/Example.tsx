@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styles from './Example.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteItem, fetchExampleAction } from '@core/redux/actions/example.actions';
 import { getExampleReducerData } from '@core/redux/selectors/example.selectors';
 import CustomersRemote from '@core/remotes/CustomersRemote';
+import messengingService from '@core/utils/messengingService';
 
 const Example = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -21,6 +22,10 @@ const Example = (): JSX.Element => {
       </p>
     ));
   }, [someRandomData]);
+
+  useEffect(() => {
+    messengingService.subscribeToHost((receivedData: any) => console.error(receivedData));
+  }, []);
 
   return (
     <>

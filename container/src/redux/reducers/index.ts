@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
 import exampleReducer from './example.reducer';
-import { StoreState } from '@ts/shared/storeState.types';
+import { StoreState } from '@ts/types/storeState.types';
 
 //  Combining all existing reducers
 const appReducer = combineReducers<StoreState>({

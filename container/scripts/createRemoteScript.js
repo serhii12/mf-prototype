@@ -124,12 +124,14 @@ const prodConfig = {
  * Boilerplate code for container remote .tsx file
  */
 const REMOTE_BOILERPLATE = `import React, { useRef, useEffect } from 'react';
+        import messengingService from '@core/utils/messengingService';
+
         export default (): JSX.Element => {
           const ref = useRef(null);
 
           useEffect(() => {
             import('${variables.remote_name.toLowerCase()}/${capitalize(variables.remote_name)}App')
-              .then(({ mount }) => mount(ref.current))
+              .then(({ mount }) => mount(ref.current, { subscribe: messengingService.subscribe, sendMessageToHost: messengingService.sendMessageToHost }))
               .catch(() => {
                 throw new Error('${capitalize(variables.remote_name)} remote failed to load!');
               });
