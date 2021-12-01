@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import messengingService from '@core/utils/messengingService';
+import messagingService from '@core/utils/messagingService';
 
 export default (): JSX.Element => {
   const ref = useRef(null);
@@ -8,8 +8,8 @@ export default (): JSX.Element => {
     import('customers/CustomersApp')
       .then(({ mount }) =>
         mount(ref.current, {
-          subscribe: messengingService.subscribe,
-          sendMessageToHost: messengingService.sendMessageToHost
+          subscribe: messagingService.subscribe,
+          sendMessageToHost: messagingService.sendMessageToHost
         })
       )
       .catch(() => {

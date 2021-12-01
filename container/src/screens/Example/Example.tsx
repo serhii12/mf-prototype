@@ -1,30 +1,29 @@
 import React, { useCallback, useEffect } from 'react';
 import styles from './Example.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteItem, fetchExampleAction } from '@core/redux/actions/example.actions';
+import { useSelector } from 'react-redux';
 import { getExampleReducerData } from '@core/redux/selectors/example.selectors';
 import CustomersRemote from '@core/remotes/CustomersRemote';
-import messengingService from '@core/utils/messengingService';
+import messagingService from '@core/utils/messagingService';
+import useAction from '@core/utils/hooks/useAction';
 
 const Example = (): JSX.Element => {
-  const dispatch = useDispatch();
   const someRandomData = useSelector(getExampleReducerData);
+  const { fetchExampleAction, deleteItem } = useAction();
 
   const fetchExampleJSON = useCallback(() => {
-    dispatch(fetchExampleAction());
+    fetchExampleAction();
   }, []);
 
   const renderData = useCallback(() => {
     return someRandomData.map((item) => (
       <p key={item?.id}>
-        {item?.id} {item?.title}{' '}
-        <button onClick={() => dispatch(deleteItem(item?.id))}>Delete item</button>
+        {item?.id} {item?.title} <button onClick={() => deleteItem(item?.id)}>Delete item</button>
       </p>
     ));
   }, [someRandomData]);
 
   useEffect(() => {
-    messengingService.subscribeToHost((receivedData: any) => console.error(receivedData));
+    messagingService.subscribeToHost((receivedData: any) => console.error(receivedData));
   }, []);
 
   return (

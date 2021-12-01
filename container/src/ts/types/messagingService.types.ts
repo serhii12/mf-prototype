@@ -1,4 +1,4 @@
-import { MessageTypes } from '@ts/enums/messengingService.enum';
+import { MessageTypes } from '@ts/enums/messagingService.enum';
 
 export type AvailableTypes = MessageTypes.BRANCH_CHANGED;
 

@@ -1,25 +1,21 @@
 import { Dispatch } from 'redux';
 import { ActionTypes } from '@ts/enums/example.enum';
-import { MessageTypes } from '@ts/enums/messengingService.enum';
-import {
-  ExampleActionInterface,
-  ExampleDataInterface,
-  ExampleDeleteInterface
-} from '@ts/types/example.types';
+import { MessageTypes } from '@ts/enums/messagingService.enum';
+import { ExampleDataInterface, ExampleDeleteInterface, Actions } from '@ts/types/example.types';
 import axios from 'axios';
-import messengingService from '@core/utils/messengingService';
+import messagingService from '@core/utils/messagingService';
 
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
-export const fetchExampleAction = () => async (dispatch: Dispatch) => {
+export const fetchExampleAction = () => async (dispatch: Dispatch<Actions>) => {
   const response = await axios.get<ExampleDataInterface[]>(url);
 
-  dispatch<ExampleActionInterface>({
+  dispatch({
     type: ActionTypes.THIS_IS_EXAMPLE_REDUCER,
     payload: response.data
   });
 
-  messengingService.sendMessageToRemotes({
+  messagingService.sendMessageToRemotes({
     type: MessageTypes.BRANCH_CHANGED,
     data: { newActiveBranch: '54213' }
   });

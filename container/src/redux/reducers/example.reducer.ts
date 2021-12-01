@@ -1,12 +1,15 @@
 import { ActionTypes } from '@ts/enums/example.enum';
 import { ExampleReducerInterface, Actions, ExampleDataInterface } from '@ts/types/example.types';
 
-const initialState: ExampleReducerInterface = {
+const initialState = {
   data: [],
   loading: false
 };
 
-export default (state: ExampleReducerInterface = initialState, action: Actions) => {
+export default (
+  state: ExampleReducerInterface = initialState,
+  action: Actions
+): ExampleReducerInterface => {
   switch (action.type) {
     case ActionTypes.THIS_IS_EXAMPLE_REDUCER: {
       return {

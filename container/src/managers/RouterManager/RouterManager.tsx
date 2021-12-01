@@ -5,7 +5,7 @@ import Example from '@core/screens/Example';
 
 interface Props extends RouteComponentProps {}
 
-const RouterManager = ({ location }: Props): JSX.Element => {
+const RouterManager: React.FC<Props> = ({ location }): JSX.Element => {
   return (
     <>
       <WhitelabelManager />

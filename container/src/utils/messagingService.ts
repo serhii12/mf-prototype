@@ -1,11 +1,11 @@
-import { RemotesMessageInterface } from '@ts/types/messengingService.types';
+import { RemotesMessageInterface } from '@ts/types/messagingService.types';
 
 /**
  * This function is used as a way to create communication between container app and remote apps
  * @returns {Object}
  */
 
-const messengingService = {
+const messagingService = {
   subscribe: (fn: Function): void => {
     window.addEventListener('hostMessage', (data: any) => fn(data?.detail));
   },
@@ -24,4 +24,4 @@ const messengingService = {
   }
 };
 
-export default messengingService;
+export default messagingService;
