@@ -4,4 +4,4 @@
 ###> frontend ###
 /container/node_modules
 /remotes/**/node_modules
-/storybook
+/container/scripts

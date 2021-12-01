@@ -1,3 +1,4 @@
+// @ts-nocheck
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const commonConfig = require('./webpack.common');
@@ -7,23 +8,23 @@ const { merge } = require('webpack-merge');
 const domain = process.env.PRODUCTION_DOMAIN;
 
 const prodConfig = {
-    mode: 'production',
-    output: {
-        filename: '[name].[contenthash].js',
-        publicPath: './'
-    },
-    plugins: [
-        new ModuleFederationPlugin({
-            name: 'container',
-            remotes: {
-                maps: `maps@${domain}/maps/remoteEntry.js`
-            },
-            shared: packageJson.dependencies
-        }),
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-        }),
-    ]
-}
+  mode: 'production',
+  output: {
+    filename: '[name].[contenthash].js',
+    publicPath: './'
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'container',
+      remotes: {
+        maps: `maps@${domain}/maps/remoteEntry.js`
+      },
+      shared: packageJson.dependencies
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ]
+};
 
 module.exports = merge(commonConfig, prodConfig);

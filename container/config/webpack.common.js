@@ -1,4 +1,5 @@
-const path = require("path");
+// @ts-nocheck
+const path = require('path');
 
 module.exports = {
   module: {
@@ -7,11 +8,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-react', '@babel/preset-env'],
-            plugins: ['@babel/plugin-transform-runtime'],
-          },
+          loader: 'babel-loader'
         },
       },
       {
@@ -44,6 +41,15 @@ module.exports = {
       },
 
       /*
+       *
+       */
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
+      },
+
+      /*
         IMAGES
         ------
         * Copies fonts found within the `src` tree to the `dist` folder
@@ -66,22 +72,13 @@ module.exports = {
         test: /\.module\.(scss|sass)$/,
         use: [
           { loader:  'style-loader' },
-          { loader:  'css-loader' },
+          { loader:  'css-loader',   options: {
+            modules:  {
+              localIdentName:'[local]_[hash:base64:5]'
+            },
+          } },
           {
             loader: 'sass-loader',
-            options: {
-              modules: {
-                mode: "local",
-                auto: true,
-                exportGlobals: true,
-                localIdentName: "[path][name]__[local]--[hash:base64:5]",
-                localIdentContext: path.resolve(__dirname, "src"),
-                localIdentHashSalt: "my-custom-hash",
-                namedExport: true,
-                exportLocalsConvention: "camelCase",
-                exportOnlyLocals: false,
-              }
-            }
           }
         ]
       },
@@ -89,9 +86,10 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
     alias: {
-      '@core': path.resolve( 'src')
+      '@core': path.resolve( 'src'),
+      '@ts': path.resolve('src/ts')
     }
   },
 };

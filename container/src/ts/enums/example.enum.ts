@@ -1,0 +1,4 @@
+export enum ActionTypes {
+  THIS_IS_EXAMPLE_REDUCER = 'THIS_IS_EXAMPLE_REDUCER',
+  DELETE_ITEM = 'DELETE_ITEM'
+}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
@@ -18,10 +19,13 @@ const devConfig = {
     publicPath: 'http://localhost:3000/'
   },
   plugins: [
+    new ESLintPlugin({
+      files: ['src/**/*.ts', 'src/**/*.tsx'],
+    }),
     new ModuleFederationPlugin({
       name: 'container',
       remotes: {
-        maps: 'maps@http://localhost:3100/remoteEntry.js'
+        'customers': 'customers@http://localhost:3100/remoteEntry.js'
       },
       shared: packageJson.dependencies,
     }),
@@ -39,8 +43,7 @@ const devConfig = {
         minifyCSS: true,
         minifyURLs: true
       }
-    }),
-    new ESLintPlugin(),
+    })
   ],
 };
 

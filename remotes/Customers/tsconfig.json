@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "esnext",
+    "jsx": "react",
+    "allowJs": true,
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@core/*": ["src/*"],
+      "@ts/*": ["src/ts/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["../node_modules/@types"]
+  }
+}
