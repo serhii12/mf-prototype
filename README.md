@@ -86,7 +86,8 @@ REACT_APP_TENANT_SERVICE_URL="https://AUTH_ENV.tenant.gourban.services"
 - Please keep the storybook up to date, when ever you update or create and new reusable component, go to `src/stories` and update/create story for that component
 - Keep all things related to redux in redux folder. Redux folder is structured like following:
 ```bash
-# Redux files should be created based on entities ( except Auth )
+# Redux files should try to keep their structure based on entities, ofcourse that wont be the case all the time
+# Keys like Auth etc.. are not entities but they should have their own key
 # Structure example:
 
 screens
@@ -150,6 +151,4 @@ redux
   ------ types -> Used to define interfaces and types
   |        |
   |        ------ example.types.ts
-  |
-  ------ shared -> Used for some interfaces/types that are used on multiple places
 ```
