@@ -1,7 +1,7 @@
 import { ActionTypes } from '@ts/enums/example.enum';
 import { ExampleReducerInterface, Actions, ExampleDataInterface } from '@ts/types/example.types';
 
-const initialState = {
+const initialState: ExampleReducerInterface = {
   data: [],
   loading: false
 };
