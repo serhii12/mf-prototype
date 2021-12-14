@@ -1,0 +1,7 @@
+@import '../base/__colors';
+
+:export {
+  @each $name, $color in $brand_colors {
+    #{$name}: $color;
+  }
+}

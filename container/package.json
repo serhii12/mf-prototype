@@ -1,13 +1,14 @@
 {
   "name": "container",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "scripts": {
     "start": "webpack serve --config config/webpack.dev.js",
     "build": "webpack --config config/webpack.prod.js",
     "new-remote": "node scripts/createRemoteScript.js && prettier --write package.json && prettier --write ./src/remotes/**/*.ts && prettier --write ./src/remotes/**/*.tsx && prettier --write ./src/remotes/remotes-mf.ts",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "remotes:customers": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\""
+    "remotes:customers": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\"",
+    "remotes:maps": "concurrently -n \"maps,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Maps && npm run start\" \"npm run start\""
   },
   "dependencies": {
     "@storybook/addon-actions": "^6.3.12",
@@ -15,6 +16,7 @@
     "@storybook/addon-knobs": "^6.3.1",
     "@storybook/addon-links": "^6.3.12",
     "@storybook/react": "^6.3.12",
+    "@types/node": "^16.11.12",
     "axios": "^0.24.0",
     "eslint-webpack-plugin": "^3.1.1",
     "final-form": "^4.20.4",
@@ -23,14 +25,16 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-final-form": "^6.5.7",
+    "react-inlinesvg": "^2.3.0",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^5.3.0",
+    "react-router-dom": "^6.0.1",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "reselect": "^4.1.5",
+    "url-loader": "^4.1.1",
     "webpack": "^5.4.0",
     "webpack-merge": "^5.2.0"
   },

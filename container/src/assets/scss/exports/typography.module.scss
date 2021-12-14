@@ -1,0 +1,7 @@
+@import '../base/_typography';
+
+:export {
+  @each $name, $font in $typography {
+    #{$name}: $font;
+  }
+}

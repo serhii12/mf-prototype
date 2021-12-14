@@ -1,0 +1,31 @@
+@import '../index';
+
+:export {
+  @each $name, $color in $semantic_colors {
+    @each $variation in $lighten_iterations {
+      #{$name}_variation_l_#{$variation}: lighten($color, $variation);
+    }
+
+    @each $variation in $darken_iterations {
+      #{$name}_variation_d_#{$variation}: darken($color, $variation);
+    }
+  }
+  @each $name, $color in $brand_colors {
+    @each $variation in $lighten_iterations {
+      #{$name}_variation_l_#{$variation}: lighten($color, $variation);
+    }
+
+    @each $variation in $darken_iterations {
+      #{$name}_variation_d_#{$variation}: darken($color, $variation);
+    }
+  }
+  @each $name, $color in $neutral_colors {
+    @each $variation in $lighten_iterations {
+      #{$name}_variation_l_#{$variation}: lighten($color, $variation);
+    }
+
+    @each $variation in $darken_iterations {
+      #{$name}_variation_d_#{$variation}: darken($color, $variation);
+    }
+  }
+}

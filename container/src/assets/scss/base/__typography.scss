@@ -1,0 +1,25 @@
+$font_family: 'Inter', sans-serif;
+
+$font-1: 600 34px/40px $font_family;
+$font-2: 600 28px/34px $font_family;
+$font-3: 600 22px/26px $font_family;
+$font-4: 600 18px/22px $font_family;
+$font-5: 700 14px/20px $font_family;
+
+$font-body-s: 400 14px/20px $font_family;
+$font-body-m: 400 16px/22px $font_family;
+$font-body-l: 600 16px/22px $font_family;
+
+$font-caption: 400 12px/16px $font_family;
+
+$typography: (
+  font-1: 600 34px/40px $font_family,
+  font-2: 600 28px/34px $font_family,
+  font-3: 600 22px/26px $font_family,
+  font-4: 600 18px/22px $font_family,
+  font-5: 700 14px/20px $font_family,
+  font-body-l: 600 16px/22px $font_family,
+  font-body-m: 400 16px/22px $font_family,
+  font-body-s: 400 14px/20px $font_family,
+  font-caption: 400 12px/16px $font_family
+);

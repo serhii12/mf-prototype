@@ -1,0 +1,10 @@
+@import './__colors';
+@use "sass:map";
+
+$colors: map-merge($semantic_colors, $brand_colors);
+
+$allColors: map-merge($colors, $neutral_colors);
+
+@function getColor($colorName: default) {
+  @return map-get($allColors, $colorName);
+}

@@ -1,0 +1,203 @@
+@import '../assets/scss/index.scss';
+
+#root {
+  padding: 0 $spacing * 2 0 $spacing * 2;
+}
+
+.story__block {
+  margin-bottom: $spacing * 12;
+}
+
+.story__typography {
+  &-single {
+    display: flex;
+    border-bottom: 1px solid getColor('mid-grey');
+    padding-bottom: $spacing * 3;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p {
+      margin-bottom: 0 !important;
+    }
+
+    &__info {
+      flex-basis: 250px;
+      width: 250px;
+      min-width: 250px;
+
+      p {
+        margin-bottom: 0;
+        margin-top: 0;
+        color: lighten(getColor('mid-grey'), 20);
+      }
+
+      h4 {
+        margin-bottom: $spacing / 2;
+      }
+    }
+  }
+}
+
+.story-header {
+  padding: 24px 0;
+  border-radius: 2px;
+  margin-bottom: $spacing * 3;
+
+  &__title {
+    margin: 0px;
+    padding: 0px;
+    font-size: 35px;
+    color: black;
+  }
+
+  &__subtitle {
+    margin: 0px 0px $spacing;
+    padding: 0px;
+    font-weight: 400;
+    font-size: 22px;
+  }
+}
+
+code {
+  padding: 1px 4px;
+  font-size: inherit;
+  background: #ededf1;
+  color: #4040e5;
+  word-break: break-all;
+}
+
+.storybook__table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0 0 ($spacing * 2);
+
+  th {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: left;
+    line-height: (24/19);
+    padding: ($spacing * 2) ($spacing * 4) ($spacing * 2) 0;
+    border-bottom: 2px solid red;
+    color: black;
+    white-space: nowrap;
+  }
+
+  tbody {
+    tr {
+      vertical-align: top;
+      border-bottom: 1px solid red;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  td {
+    padding: ($spacing * 2) $spacing ($spacing * 2) 0;
+    line-height: (22/16);
+    color: black;
+    vertical-align: middle;
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.color {
+  @each $name, $color in $semantic_colors {
+    &--#{$name} {
+      background-color: $color;
+    }
+
+    @each $variation in $lighten_iterations {
+      &--#{$name}-l-#{$variation} {
+        background-color: lighten($color, $variation);
+      }
+    }
+
+    @each $variation in $darken_iterations {
+      &--#{$name}-d-#{$variation} {
+        background-color: darken($color, $variation);
+      }
+    }
+  }
+  @each $name, $color in $brand_colors {
+    &--#{$name} {
+      background-color: $color;
+    }
+
+    @each $variation in $lighten_iterations {
+      &--#{$name}-l-#{$variation} {
+        background-color: lighten($color, $variation);
+      }
+    }
+
+    @each $variation in $darken_iterations {
+      &--#{$name}-d-#{$variation} {
+        background-color: darken($color, $variation);
+      }
+    }
+  }
+  @each $name, $color in $neutral_colors {
+    &--#{$name} {
+      background-color: $color;
+    }
+
+    @each $variation in $lighten_iterations {
+      &--#{$name}-l-#{$variation} {
+        background-color: lighten($color, $variation);
+      }
+    }
+
+    @each $variation in $darken_iterations {
+      &--#{$name}-d-#{$variation} {
+        background-color: darken($color, $variation);
+      }
+    }
+  }
+
+  &__box {
+    width: 100%;
+    display: flex;
+    margin-bottom: $spacing * 4;
+
+    &-item {
+      margin-right: $spacing * 4;
+
+      p {
+        font-size: 13px;
+        line-height: 1.85;
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+
+      &-shades {
+        display: flex;
+
+        & > * {
+          height: 130px;
+          width: 180px !important;
+
+          & > div {
+            width: 130% !important;
+          }
+        }
+      }
+    }
+  }
+
+  &__item {
+    height: 150px;
+    width: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: $spacing;
+  }
+}

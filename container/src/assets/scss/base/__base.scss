@@ -1,3 +1,5 @@
+@import '_typography';
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -12,10 +14,43 @@ html {
 
 html,
 body {
+  font: $font-body-m;
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+@each $name, $font in $typography {
+  .#{$name} {
+    font: $font;
+  }
+}
+
+h1 {
+  font: $font-1;
+  letter-spacing: 1.21px;
+}
+
+h2 {
+  font: $font-2;
+  letter-spacing: 1.29px;
+}
+
+h3 {
+  font: $font-3;
+  letter-spacing: 1.45px;
+}
+
+h4 {
+  font: $font-4;
+  letter-spacing: 1.9px;
+}
+
+h5 {
+  font: $font-5;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 body {

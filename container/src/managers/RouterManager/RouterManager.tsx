@@ -1,25 +1,17 @@
 import React from 'react';
-import { Route, Switch, Redirect, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import WhitelabelManager from '@core/managers/WhiteLabelManager';
 import Example from '@core/screens/Example';
 
-interface Props extends RouteComponentProps {}
-
-const RouterManager: React.FC<Props> = ({ location }): JSX.Element => {
+const RouterManager = (): JSX.Element => {
   return (
     <>
       <WhitelabelManager />
-      <Switch>
-        <Route exact path="/" component={Example} />
-        <Redirect
-          to={{
-            pathname: '/',
-            state: { from: location }
-          }}
-        />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Example />} />
+      </Routes>
     </>
   );
 };
 
-export default withRouter(RouterManager);
+export default RouterManager;

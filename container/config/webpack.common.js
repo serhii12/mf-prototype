@@ -56,16 +56,13 @@ module.exports = {
         * Keeps the original file name
       */
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        include: path.resolve(__dirname, 'src'),
+        test: /\.(png|svg|jpg|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]'
-            }
+            loader: 'url-loader',
           }
-        ]
+        ],
+        type: 'javascript/auto'
       },
 
       {

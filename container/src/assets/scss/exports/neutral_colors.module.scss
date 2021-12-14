@@ -1,0 +1,7 @@
+@import '../base/__colors';
+
+:export {
+  @each $name, $color in $neutral_colors {
+    #{$name}: $color;
+  }
+}
