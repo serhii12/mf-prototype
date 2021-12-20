@@ -1,5 +1,5 @@
 @import './__colors';
-@use "sass:map";
+@import './__breakpoints';
 
 $colors: map-merge($semantic_colors, $brand_colors);
 
@@ -7,4 +7,50 @@ $allColors: map-merge($colors, $neutral_colors);
 
 @function getColor($colorName: default) {
   @return map-get($allColors, $colorName);
+}
+
+@function getBoxShadow() {
+  @return 1px 1px 10px getColor('mid-grey');
+}
+
+@function getOverlay() {
+  @return rgba(#000, 0.7);
+}
+
+@function getBreakpoint($breakpointKey) {
+  @return map-get($breakpoints, $breakpointKey);
+}
+
+@mixin breakpoint($to: null, $from: null, $and: null) {
+  @if $from != null and $to != null {
+    @if $and != null {
+      @media (min-width: getBreakpoint($from)) and (max-width: getBreakpoint($to)) and ($and) {
+        @content;
+      }
+    } @else {
+      @media (min-width: getBreakpoint($from)) and (max-width: getBreakpoint($to)) {
+        @content;
+      }
+    }
+  } @else if $to != null {
+    @if $and != null {
+      @media (max-width: getBreakpoint($to)) and ($and) {
+        @content;
+      }
+    } @else {
+      @media (max-width: getBreakpoint($to)) {
+        @content;
+      }
+    }
+  } @else if $from != null {
+    @if $and != null {
+      @media (min-width: getBreakpoint($from) + 1) and ($and) {
+        @content;
+      }
+    } @else {
+      @media (min-width: getBreakpoint($from) + 1) {
+        @content;
+      }
+    }
+  }
 }

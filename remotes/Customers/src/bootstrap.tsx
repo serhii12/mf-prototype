@@ -19,7 +19,7 @@ const mount = (el: any, messengingService: MessengingService) => {
   ReactDOM.render(
     <h1>
       This is a new Remote{' '}
-      <button onClick={sendMessageToHost}>Click here to send message to hostttt!</button>
+      <button onClick={sendMessageToHost}>Click here to send message to host!</button>
     </h1>,
     el
   );

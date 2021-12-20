@@ -1,0 +1,120 @@
+@import '~@core/assets/scss/index';
+
+.form {
+  $this: &;
+  width: 100%;
+  position: relative;
+  margin: 0 0 ($spacing * 3) 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &__column {
+    flex: 1;
+    width: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__row {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 0 ($spacing * 2) 0;
+
+    @include breakpoint($to: tablet) {
+      display: block;
+    }
+
+    &:last-child,
+    &:empty {
+      margin-bottom: 0;
+    }
+
+    &-column {
+      width: 50%;
+      flex: 0 0 50%;
+      padding-left: $spacing;
+      padding-right: $spacing;
+
+      @include breakpoint($to: tablet) {
+        width: 100%;
+        flex: 0 0 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: $spacing * 2;
+      }
+
+      &:first-child,
+      &:empty {
+        padding-left: 0;
+      }
+
+      &:last-child,
+      &:empty {
+        padding-right: 0;
+
+        @include breakpoint($to: tablet) {
+          margin-bottom: 0;
+        }
+      }
+
+      &-responsive {
+        width: auto;
+        display: block;
+
+        @include breakpoint($to: tablet) {
+          margin-bottom: $spacing * 2;
+        }
+
+        &:last-child {
+          @include breakpoint($to: tablet) {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &__columns {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacing * 3;
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include breakpoint($to: tablet) {
+      flex-direction: column;
+    }
+
+    #{$this}__column {
+      flex-basis: 50%;
+      width: 50%;
+      margin-right: $spacing * 8;
+
+      &:last-child {
+        margin-right: 0;
+
+        @include breakpoint($to: tablet) {
+          margin-bottom: 0;
+        }
+      }
+
+      @include breakpoint($to: tablet) {
+        width: 100%;
+        flex: 0 0 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: $spacing * 2;
+        margin-right: 0;
+      }
+    }
+  }
+}

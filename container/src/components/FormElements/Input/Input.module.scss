@@ -1,0 +1,95 @@
+@import '~@core/assets/scss/index';
+
+.input {
+  $this: &;
+  flex: 1;
+  width: 100%;
+  position: relative;
+  margin: 0 $spacing * 2 0 0;
+  display: flex;
+  flex-direction: column-reverse;
+
+  & input[disabled] {
+    background-color: lighten(getColor('mid-grey'), 50);
+    border: 1px solid lighten(getColor('mid-grey'), 50);
+    cursor: not-allowed;
+  }
+
+  &:last-child {
+    margin-right: 0;
+
+    @include breakpoint($to: tablet) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__action {
+    min-width: $spacing * 6;
+    max-height: $spacing * 5;
+    right: 0;
+    bottom: $spacing * 1.5;
+    z-index: 3;
+    line-height: 1;
+    display: flex;
+    cursor: pointer;
+    padding: 0 $spacing * 2;
+    flex-wrap: nowrap;
+    position: absolute;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background-color: transparent;
+    border: unset;
+
+    & ~ #{$this}__action {
+      right: $spacing * 4;
+      padding-right: 0;
+    }
+
+    .svg {
+      width: $spacing * 2;
+      fill: getColor('mid-grey');
+    }
+  }
+
+  @include breakpoint($to: tablet) {
+    margin-bottom: $spacing * 2;
+  }
+
+  &__field {
+    margin: 0;
+    z-index: 1;
+    width: 100%;
+    height: $spacing * 5;
+    resize: none;
+    display: block;
+    font: $font-caption;
+    padding: 0 ($spacing * 6) 0 ($spacing * 2);
+    border-radius: 3px;
+    position: relative;
+    font-weight: normal;
+    -webkit-appearance: none;
+    color: black;
+    background-color: white;
+    border: 1px solid lighten(getColor('mid-grey'), 30);
+
+    &::-ms-clear,
+    &::-ms-reveal {
+      display: none;
+    }
+
+    &--textarea {
+      height: auto;
+      min-height: 120px;
+      padding: 12px $spacing * 6 12px 18px;
+    }
+  }
+
+  &__label {
+    font: $font-body-l;
+    position: relative;
+    color: getColor('mid-grey');
+    margin-bottom: $spacing;
+  }
+}

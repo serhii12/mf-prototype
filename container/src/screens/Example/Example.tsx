@@ -1,14 +1,16 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './Example.module.scss';
 import { useSelector } from 'react-redux';
 import { getExampleReducerData } from '@core/redux/selectors/example.selectors';
 import CustomersRemote from '@core/remotes/CustomersRemote';
 import messagingService from '@core/utils/messagingService';
 import useAction from '@core/utils/hooks/useAction';
+import Modal from '@core/components/Modal';
 
 const Example = (): JSX.Element => {
   const someRandomData = useSelector(getExampleReducerData);
   const { fetchExampleAction, deleteItem } = useAction();
+  const [opened, setOpened] = useState(false);
 
   const fetchExampleJSON = useCallback(() => {
     fetchExampleAction();
@@ -33,6 +35,11 @@ const Example = (): JSX.Element => {
 
       {renderData()}
       <CustomersRemote />
+
+      <button onClick={() => setOpened(true)}>Open modal</button>
+      <Modal onClose={() => setOpened(false)} opened={opened}>
+        This is some text
+      </Modal>
     </>
   );
 };

@@ -1,0 +1,91 @@
+@import '~@core/assets/scss/index';
+
+:global(.ReactModal) {
+  &__Overlay {
+    z-index: 10000;
+    overflow: auto;
+    color: #000;
+    background-color: getOverlay() !important;
+  }
+
+  &__Body {
+    &--open {
+      overflow: hidden;
+    }
+  }
+}
+
+.modal {
+  $this: &;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  overflow: auto;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: $spacing * 3;
+  align-content: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &__inner {
+    z-index: 2;
+    width: 100%;
+    pointer-events: all;
+    max-width: $spacing * 100;
+    text-align: left;
+    position: relative;
+    padding: 20px $spacing * 3 $spacing * 3 $spacing * 3;
+    background-color: white;
+    max-height: 100%;
+    border-radius: 3px;
+    box-shadow: getBoxShadow();
+
+    @include breakpoint(tablet) {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    &--small {
+      max-width: $spacing * 44;
+
+      @include breakpoint(tablet) {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    &--large {
+      max-width: $spacing * 140;
+
+      @include breakpoint(tablet) {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
+  &__close {
+    margin: 0;
+    padding: 0;
+    z-index: 10;
+    border: none;
+    cursor: pointer;
+    top: $spacing * 2;
+    position: absolute;
+    right: $spacing * 2;
+    -webkit-appearance: none;
+    background-color: transparent;
+    width: 16px;
+    height: 16px;
+
+    svg {
+      fill: #000;
+    }
+  }
+
+  &__content {
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+}

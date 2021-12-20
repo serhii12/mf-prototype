@@ -47,9 +47,7 @@ const devConfig = {
     // webpack 5 comes with devServer which loads in development mode
     devServer: {
         port: ${variables.on_port},
-            historyApiFallback: {
-              index: 'index.html',
-            },
+            historyApiFallback: true
     },
      output: {
         publicPath: 'http://localhost:${variables.on_port}/'
@@ -124,14 +122,14 @@ const prodConfig = {
  * Boilerplate code for container remote .tsx file
  */
 const REMOTE_BOILERPLATE = `import React, { useRef, useEffect } from 'react';
-        import messengingService from '@core/utils/messengingService';
+        import messagingService from '@core/utils/messagingService';
 
         export default (): JSX.Element => {
           const ref = useRef(null);
 
           useEffect(() => {
             import('${variables.remote_name.toLowerCase()}/${capitalize(variables.remote_name)}App')
-              .then(({ mount }) => mount(ref.current, { subscribe: messengingService.subscribe, sendMessageToHost: messengingService.sendMessageToHost }))
+              .then(({ mount }) => mount(ref.current, { subscribe: messagingService.subscribe, sendMessageToHost: messagingService.sendMessageToHost }))
               .catch(() => {
                 throw new Error('${capitalize(variables.remote_name)} remote failed to load!');
               });

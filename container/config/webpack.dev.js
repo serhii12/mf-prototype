@@ -11,9 +11,7 @@ const devConfig = {
   devServer: {
     port: 3000,
     open: true,
-    historyApiFallback: {
-      index: 'index.html',
-    },
+    historyApiFallback: true,
   },
   output: {
     publicPath: 'http://localhost:3000/'
@@ -25,7 +23,7 @@ const devConfig = {
     new ModuleFederationPlugin({
       name: 'container',
       remotes: {
-        'customers': 'customers@http://localhost:3100/remoteEntry.js'
+        'customers': 'customers@http://localhost:3100/remoteEntry.js',
       },
       shared: packageJson.dependencies,
     }),

@@ -1,5 +1,3 @@
-// Button.stories.js | Button.stories.jsx
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import brand_colors from '../assets/scss/exports/brand_colors.module.scss';
 import neutral_colors from '../assets/scss/exports/neutral_colors.module.scss';
@@ -7,7 +5,11 @@ import semantic_colors from '../assets/scss/exports/semantic_colors.module.scss'
 import variantionColors from '../assets/scss/exports/color_variants.module.scss';
 import './index.scss';
 
-storiesOf('Style', module).add('Colors', () => {
+export default {
+  title: 'UI Style guide/Colors'
+};
+
+const Template = () => {
   const brandColorKeys = Object.keys(brand_colors);
   const neutralColorKeys = Object.keys(neutral_colors);
   const semanticColorsKeys = Object.keys(semantic_colors);
@@ -214,4 +216,6 @@ storiesOf('Style', module).add('Colors', () => {
       </div>
     </>
   );
-});
+};
+
+export const Colors = Template.bind({});

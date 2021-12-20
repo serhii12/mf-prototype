@@ -1,11 +1,11 @@
-// Button.stories.js | Button.stories.jsx
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import typography from '../assets/scss/exports/typography.module.scss';
 
-console.log(typography);
+export default {
+  title: 'UI Style guide/Typography'
+};
 
-storiesOf('Style', module).add('Typography', () => {
+const Template = () => {
   const typographyKeys = Object.keys(typography);
 
   const renderInfo = ({ name, font_name, weight, font_size, spacing }) => {
@@ -101,7 +101,6 @@ storiesOf('Style', module).add('Typography', () => {
   };
 
   const renderTypography = (item) => {
-    console.log(item);
     switch (item) {
       case 'font-1':
         return (
@@ -172,7 +171,7 @@ storiesOf('Style', module).add('Typography', () => {
 
       <div className="story__block">
         {typographyKeys.map((typographySingle) => (
-          <div className="story__typography-single">
+          <div key={typographySingle} className="story__typography-single">
             {renderTypographyInformation(typographySingle)}
             {renderTypography(typographySingle)}
           </div>
@@ -180,4 +179,6 @@ storiesOf('Style', module).add('Typography', () => {
       </div>
     </>
   );
-});
+};
+
+export const Typography = Template.bind({});
