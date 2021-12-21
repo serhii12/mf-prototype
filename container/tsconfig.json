@@ -4,11 +4,12 @@
     "outDir": "./dist/",
     "noImplicitAny": false,
     "module": "es2020",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "moduleResolution": "Node",
+    "target": "es5",
     "importHelpers": true,
-    "lib": ["es2018", "dom"],
+    "lib": ["es2018", "dom", "dom.iterable", "esnext"],
     "paths": {
       "@core/*": ["src/*"],
       "@ts/*": ["src/ts/*"]

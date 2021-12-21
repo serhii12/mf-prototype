@@ -1,0 +1,6 @@
+@import '../base/_tools';
+
+:export {
+  overlay: getOverlay();
+  box-shadow: getBoxShadow();
+}

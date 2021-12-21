@@ -1,4 +1,5 @@
-@import '../index';
+@import '../base/_colors';
+@import '../base/_helperVariables';
 
 :export {
   @each $name, $color in $semantic_colors {

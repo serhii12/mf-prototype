@@ -1,13 +1,13 @@
 import React from 'react';
-import manifest from '../components/Svg/manifest';
-import Svg from '../components/Svg';
+import { Svg, allIcons } from '@gourban/ui-components';
+import './index.scss';
 
 export default {
   title: 'UI Style guide/Icons'
 };
 
 const Template = () => {
-  const icons = Object.keys(manifest);
+  const icons = Object.keys(allIcons);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import React from 'react';
-import ModalComponent from '../components/Modal';
+import { Modal as ModalComponent } from '@gourban/ui-components';
+import './index.scss';
 
 export default {
   title: 'UI Components/Modal',

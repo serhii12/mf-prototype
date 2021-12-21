@@ -1,15 +1,20 @@
 @import '_typography';
+@import '_helperVariables';
 
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   -webkit-overflow-scrolling: touch;
+  padding: 0;
+  margin: 0;
 }
 
 html,
@@ -62,6 +67,10 @@ body {
 
 button * {
   pointer-events: none;
+}
+
+p {
+  margin-bottom: $spacing !important;
 }
 
 p:last-child,

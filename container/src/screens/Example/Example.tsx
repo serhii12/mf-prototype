@@ -5,7 +5,7 @@ import { getExampleReducerData } from '@core/redux/selectors/example.selectors';
 import CustomersRemote from '@core/remotes/CustomersRemote';
 import messagingService from '@core/utils/messagingService';
 import useAction from '@core/utils/hooks/useAction';
-import Modal from '@core/components/Modal';
+import { Modal } from '@gourban/ui-components';
 
 const Example = (): JSX.Element => {
   const someRandomData = useSelector(getExampleReducerData);
@@ -38,7 +38,7 @@ const Example = (): JSX.Element => {
 
       <button onClick={() => setOpened(true)}>Open modal</button>
       <Modal onClose={() => setOpened(false)} opened={opened}>
-        This is some text
+        <p>This is some text</p>
       </Modal>
     </>
   );

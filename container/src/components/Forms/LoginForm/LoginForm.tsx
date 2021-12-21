@@ -1,39 +1,43 @@
 import React, { FormEvent, memo } from 'react';
-import { Form as FinalForm, Field } from 'react-final-form';
-import { Form } from '@core/components/FormElements';
-import { Text, Password } from '@core/components/FormElements';
+import { Formik, Form } from 'formik';
+import { FormElements } from '@gourban/ui-components';
 
 interface LoginFormInterface {
   onSubmit: React.FormEventHandler<FormEvent>;
 }
 
-const LoginForm: React.FC<LoginFormInterface> = ({ onSubmit }) => {
+interface Values {
+  username: string;
+  password: string;
+}
+
+const LoginForm: React.FC<LoginFormInterface> = () => {
   return (
-    <FinalForm onSubmit={onSubmit}>
-      {({ handleSubmit }) => (
-        <Form id="login_form" onSubmit={handleSubmit}>
-          <Form.Row>
-            <Field
-              name="username"
-              fieldProps={{ label: 'Username' }}
-              fieldAttr={{ id: 'username' }}
-              component={Text}
-            />
-          </Form.Row>
+    <Formik
+      initialValues={{ username: '', password: '' }}
+      validate={(values) => {
+        const errors = {
+          username: undefined
+        };
+        if (values?.username?.length > 2) {
+          errors.username = 'Sorry.';
+        }
 
-          <Form.Row>
-            <Field
-              name="password"
-              fieldProps={{ label: 'Password' }}
-              fieldAttr={{ id: 'password' }}
-              component={Password}
-            />
-          </Form.Row>
-
-          <button>Ok</button>
-        </Form>
-      )}
-    </FinalForm>
+        return errors;
+      }}
+      onSubmit={(values: Values) => {
+        console.error(values);
+      }}
+    >
+      <Form>
+        <FormElements.Text
+          name="username"
+          fieldAttr={{ id: 'username', placeholder: 'Enter username...' }}
+          fieldProps={{ label: 'Username' }}
+        />
+        <button>Test</button>
+      </Form>
+    </Formik>
   );
 };
 

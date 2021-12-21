@@ -1,5 +1,6 @@
 import React from 'react';
 import typography from '../assets/scss/exports/typography.module.scss';
+import './index.scss';
 
 export default {
   title: 'UI Style guide/Typography'
