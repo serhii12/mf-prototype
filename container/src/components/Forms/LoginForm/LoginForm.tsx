@@ -1,9 +1,9 @@
-import React, { FormEvent, memo } from 'react';
+import React, { memo } from 'react';
 import { Formik, Form } from 'formik';
 import { FormElements } from '@gourban/ui-components';
 
 interface LoginFormInterface {
-  onSubmit: React.FormEventHandler<FormEvent>;
+  onSubmit: Function;
 }
 
 interface Values {
@@ -11,31 +11,44 @@ interface Values {
   password: string;
 }
 
-const LoginForm: React.FC<LoginFormInterface> = () => {
+const LoginForm: React.FC<LoginFormInterface> = ({ onSubmit }) => {
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
       validate={(values) => {
-        const errors = {
-          username: undefined
-        };
-        if (values?.username?.length > 2) {
+        const errors: any = {};
+        if (values?.username?.length > 25) {
           errors.username = 'Sorry.';
         }
 
         return errors;
       }}
       onSubmit={(values: Values) => {
-        console.error(values);
+        onSubmit(values);
       }}
     >
       <Form>
-        <FormElements.Text
-          name="username"
-          fieldAttr={{ id: 'username', placeholder: 'Enter username...' }}
-          fieldProps={{ label: 'Username' }}
-        />
-        <button>Test</button>
+        <FormElements.Columns>
+          <FormElements.Column>
+            <FormElements.Text
+              name="username"
+              fieldAttr={{ id: 'username', placeholder: 'Enter username...' }}
+              fieldProps={{ label: 'Username' }}
+            />
+          </FormElements.Column>
+
+          <FormElements.Column>
+            <FormElements.Password
+              name="password"
+              fieldAttr={{ id: 'password', placeholder: 'Enter password...' }}
+              fieldProps={{ label: 'Password' }}
+            />
+          </FormElements.Column>
+        </FormElements.Columns>
+
+        <button data-cypress-id="login" type="submit">
+          Test
+        </button>
       </Form>
     </Formik>
   );

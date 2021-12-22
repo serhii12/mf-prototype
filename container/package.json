@@ -7,10 +7,11 @@
     "new-remote": "node scripts/createRemoteScript.js && prettier --write package.json && prettier --write ./src/remotes/**/*.ts && prettier --write ./src/remotes/**/*.tsx && prettier --write ./src/remotes/remotes-mf.ts",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "remotes:customers": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\""
+    "remotes:customers": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\"",
+    "cy:run": "cypress run"
   },
   "dependencies": {
-    "@gourban/ui-components": "^0.0.8",
+    "@gourban/ui-components": "^0.0.18",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-knobs": "^6.3.1",
@@ -66,6 +67,7 @@
     "concurrently": "^6.4.0",
     "css-loader": "^5.0.0",
     "css-modules-typescript-loader": "^4.0.1",
+    "cypress": "^9.2.0",
     "dotenv-webpack": "^7.0.3",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-typescript": "^16.0.0",
