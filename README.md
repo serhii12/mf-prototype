@@ -65,7 +65,6 @@ check all those tools above and use them in feature development of this project.
 
 HOST=gourban-staging2.localhost
 HTTPS=true
-REACT_APP_MAPBOX_ACCESSTOKEN="pk.eyJ1IjoiZ291cmJhbiIsImEiOiJjamdwN3pnNDMzY3h4MnFxbzd4eG54MHQ3In0.79nJYH8o2IBEM14U_K1L6g"
 REACT_APP_TENANT_SERVICE_URL="https://AUTH_ENV.tenant.gourban.services"
 
 ```

@@ -8,3 +8,4 @@
 /container/scripts
 /container/cypress/screenshots
 /container/cypress/videos
+/container/dist

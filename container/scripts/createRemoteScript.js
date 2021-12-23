@@ -39,8 +39,14 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
+const resolve = require('resolve');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const { MFLiveReloadPlugin } = require("@module-federation/fmr");
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const fs = require("fs");
+const path = require("path");
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const devConfig = {
     mode: 'development',
@@ -83,7 +89,51 @@ const devConfig = {
     }),
      new ESLintPlugin({
       files: ['src/**/*.ts', 'src/**/*.tsx'],
-    })
+    }),
+        new ForkTsCheckerWebpackPlugin({
+      async: true,
+      typescript: {
+        typescriptPath: resolve.sync('typescript', {
+          basedir: resolveApp('node_modules')
+        }),
+        configOverwrite: {
+          compilerOptions: {
+            sourceMap: true,
+            skipLibCheck: true,
+            inlineSourceMap: false,
+            declarationMap: false,
+            noEmit: true,
+            incremental: true,
+            tsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo')
+          },
+        },
+        context: resolveApp('.'),
+        diagnosticOptions: {
+          syntactic: true,
+        },
+        mode: 'write-references',
+        // profile: true,
+      },
+      issue: {
+        // This one is specifically to match during CI tests,
+        // as micromatch doesn't match
+        // '../cra-template-typescript/template/src/App.tsx'
+        // otherwise.
+        include: [
+          { file: '../**/src/**/*.{ts,tsx}' },
+          { file: '**/src/**/*.{ts,tsx}' },
+        ],
+        exclude: [
+          { file: '**/src/**/__tests__/**' },
+          { file: '**/src/**/?(*.){spec|test}.*' },
+          { file: '**/src/setupProxy.*' },
+          { file: '**/src/setupTests.*' },
+        ],
+      },
+      logger: {
+        infrastructure: 'silent',
+      },
+    }),
 ]}; module.exports = merge(commonConfig, devConfig);
 `;
 
@@ -96,12 +146,19 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
+const fs = require("fs");
+const path = require("path");
+
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const prodConfig = {
     mode: 'production',
+    devtool: 'source-map',
+    entry: './src/index.ts',
     output: {
-        filename: '[name].[contenthash].js',
-        publicPath: './'
+        filename: '[name].[contenthash:8].js',
+        path: resolveApp('dist')
     },
     // Rules of how webpack will take our files, complie & bundle them for the browser
     plugins: [ new ModuleFederationPlugin(
@@ -289,7 +346,15 @@ if (
     }/remoteEntry.js"\x1b[0m`
   );
   console.info(
-    ` 2. Switch to ${rootDir}/remotes/${capitalize(variables.remote_name)} and run npm install.`
+    ` 2. Please add the line bellow to ModuleFederation remotes in ${rootDir}/container/config/webpack.prod.js`
+  );
+  console.info(
+    ` \x1b[33m "${variables.remote_name.toLowerCase()}": "${variables.remote_name.toLowerCase()}@http://{__DOMAIN_NAME__}:${
+      variables.on_port
+    }/remoteEntry.js"\x1b[0m`
+  );
+  console.info(
+    ` 3. Switch to ${rootDir}/remotes/${capitalize(variables.remote_name)} and run npm install.`
   );
   console.info(' ');
   console.info('Thats it, you can now import the component anywhere using:');

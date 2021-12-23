@@ -10,6 +10,7 @@ import '@core/assets/scss/index.scss';
 ReactDOM.render(
   <PersistGate persistor={persistor}>
     <Provider store={store}>
+      <p>Working!</p>
       <BrowserRouter>
         <RouterManager />
       </BrowserRouter>
