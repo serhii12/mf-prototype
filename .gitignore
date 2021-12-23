@@ -2,6 +2,9 @@
 .idea
 
 ###> frontend ###
+/node_modules
 /container/node_modules
 /remotes/**/node_modules
 /container/scripts
+/container/cypress/screenshots
+/container/cypress/videos
