@@ -1,11 +1,13 @@
+
 // @ts-nocheck
-const { merge } = require('webpack-merge');
-const resolve = require('resolve');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
+const { merge } = require('webpack-merge');
+const resolve = require('resolve');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const { MFLiveReloadPlugin } = require("@module-federation/fmr");
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const fs = require("fs");
 const path = require("path");
@@ -13,38 +15,36 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const devConfig = {
-  mode: 'development',
-  devServer: {
-    port: 3000,
-    open: true,
-    historyApiFallback: true,
-    client: {
-      overlay: {
-        errors: true,
-        warnings: false
+    mode: 'development',
+    // webpack 5 comes with devServer which loads in development mode
+    devServer: {
+        port: 3300,
+        historyApiFallback: true,
+        client: {
+          overlay: {
+            errors: true,
+            warnings: false
+          }
       }
-    }
-  },
-  devtool: 'cheap-module-source-map',
-  output: {
-    publicPath: 'http://localhost:3000/'
-  },
-  plugins: [
-    new ESLintPlugin({
-      files: ['src/**/*.ts', 'src/**/*.tsx'],
-      extensions: ['js', 'jsx', 'ts', 'tsx'],
-      failOnError: true
-    }),
-    new ModuleFederationPlugin({
-      name: 'container',
-      remotes: {
-        'customers': 'customers@http://localhost:3100/remoteEntry.js',
-        "maps": "maps@http://localhost:3200/remoteEntry.js",
-        "mf3": "mf3@http://localhost:3300/remoteEntry.js"
-      },
-      shared: packageJson.dependencies,
-    }),
-    new HtmlWebpackPlugin({
+    },
+     output: {
+        publicPath: 'http://localhost:3300/'
+    },
+    // Rules of how webpack will take our files, complie & bundle them for the browser
+    plugins: [    new MFLiveReloadPlugin({
+      port: 3000,
+      container: 'container'
+    }),new ModuleFederationPlugin(
+        {
+            name: 'mf3',
+            filename:
+                'remoteEntry.js',
+            exposes: {
+                './Mf3App': './src/bootstrap_mf3'
+            },
+            shared: packageJson.dependencies,
+        }
+    ),    new HtmlWebpackPlugin({
       template: './public/index.html',
       minify: {
         removeComments: true,
@@ -59,7 +59,10 @@ const devConfig = {
         minifyURLs: true
       }
     }),
-    new ForkTsCheckerWebpackPlugin({
+     new ESLintPlugin({
+      files: ['src/**/*.ts', 'src/**/*.tsx'],
+    }),
+        new ForkTsCheckerWebpackPlugin({
       async: true,
       typescript: {
         typescriptPath: resolve.sync('typescript', {
@@ -103,7 +106,4 @@ const devConfig = {
         infrastructure: 'silent',
       },
     }),
-  ],
-};
-
-module.exports = merge(commonConfig, devConfig);
+]}; module.exports = merge(commonConfig, devConfig);

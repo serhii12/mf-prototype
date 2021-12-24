@@ -4,14 +4,15 @@
   "homepage": "./",
   "main": "src/index.ts",
   "scripts": {
-    "start": "webpack serve --config config/webpack.dev.js --client-overlay",
+    "start": "webpack serve --config config/webpack.dev.js",
     "build": "webpack --config config/webpack.prod.js",
-    "new-remote": "node scripts/createRemoteScript.js && prettier --write package.json && prettier --write ./src/remotes/**/*.ts && prettier --write ./src/remotes/**/*.tsx && prettier --write ./src/remotes/remotes-mf.ts",
+    "new-remote": "node scripts/createRemoteScript.js && prettier --write package.json && prettier --write ./src/remotes/**/*.ts && prettier --write ./src/remotes/**/*.tsx && prettier --write ./src/remotes/remotes-mf.ts && prettier --write ../remotes/**/src/index.ts",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "cy:run": "cypress run",
     "test": "npm run cy:run cypress/integration/**/*.spec.js",
-    "remotes:customers": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\""
+    "remotes:customers": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\"",
+    "test_environment": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgRed.bold,bgYellow.bold,bgCyan.bold,bgWhite.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\""
   },
   "dependencies": {
     "@gourban/ui-components": "^0.0.18",

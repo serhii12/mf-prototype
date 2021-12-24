@@ -53,7 +53,13 @@ const devConfig = {
     // webpack 5 comes with devServer which loads in development mode
     devServer: {
         port: ${variables.on_port},
-            historyApiFallback: true
+        historyApiFallback: true,
+        client: {
+          overlay: {
+            errors: true,
+            warnings: false
+          }
+      }
     },
      output: {
         publicPath: 'http://localhost:${variables.on_port}/'
@@ -68,7 +74,9 @@ const devConfig = {
             filename:
                 'remoteEntry.js',
             exposes: {
-                './${capitalize(variables.remote_name)}App': './src/bootstrap'
+                './${capitalize(
+                  variables.remote_name
+                )}App': './src/bootstrap_${variables.remote_name.toLowerCase()}'
             },
             shared: packageJson.dependencies,
         }
@@ -175,6 +183,20 @@ const prodConfig = {
 }; module.exports = merge(commonConfig, prodConfig);
 `;
 
+const IMPORT_INDEX = `// @ts-nocheck
+import('./bootstrap_${variables.remote_name}')
+  .then(({ mount }) => {
+    if (process.env.NODE_ENV === 'development') {
+      const devRoot = document.querySelector('#root');
+
+      if (devRoot) {
+        mount(devRoot);
+      }
+    }
+  })
+  .catch((err) => console.error(err));
+`;
+
 /**
  * Boilerplate code for container remote .tsx file
  */
@@ -227,7 +249,27 @@ if (
   // Copy content from remoteAppSample and paste it to above created directory
   fs.copy(
     `${rootDir}/container/scripts/remoteAppSample`,
-    `${rootDir}/remotes/${capitalize(variables.remote_name)}`
+    `${rootDir}/remotes/${capitalize(variables.remote_name)}`,
+    () => {
+      fs.rename(
+        `${rootDir}/remotes/${capitalize(variables.remote_name)}/src/bootstrap.tsx`,
+        `${rootDir}/remotes/${capitalize(variables.remote_name)}/src/bootstrap_${
+          variables.remote_name
+        }.tsx`
+      );
+
+      fs.removeSync(`${rootDir}/remotes/${capitalize(variables.remote_name)}/src/index.ts`);
+
+      fs.outputFile(
+        `${rootDir}/remotes/${capitalize(variables.remote_name)}/src/index.ts`,
+        IMPORT_INDEX,
+        function (err) {
+          if (err) {
+            throw new Error(err);
+          }
+        }
+      );
+    }
   );
 
   // If there is webpack dev file, remove it because new one will be created
@@ -291,6 +333,7 @@ if (
 
   // Get the content of packageJSON ( needed to append the right scripts )
   const packageJSON = fs.readJsonSync('./package.json');
+  const remotes = fs.readdirSync('../remotes/');
 
   if (packageJSON) {
     fs.writeJsonSync(
@@ -300,7 +343,12 @@ if (
           ...packageJSON.scripts,
           [`remotes:${variables.remote_name.toLowerCase()}`]: `concurrently -n "${variables.remote_name.toLowerCase()},container"  -c "bgBlue.bold,bgMagenta.bold,bgGreen.bold" "cd ../remotes/${capitalize(
             variables.remote_name
-          )} && npm run start" "npm run start"`
+          )} && npm run start" "npm run start"`,
+          test_environment: `concurrently -n "${remotes
+            .map((singleRemote) => singleRemote.toLowerCase())
+            .toString()},container"  -c "bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgRed.bold,bgYellow.bold,bgCyan.bold,bgWhite.bold" ${remotes
+            .map((singleRemote) => `\"cd ../remotes/${capitalize(singleRemote)} && npm run start\"`)
+            .join(' ')} "npm run start"`
         }
       })
     );
