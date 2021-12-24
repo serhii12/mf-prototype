@@ -15,7 +15,7 @@
     "test_environment": "concurrently -n \"customers,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgRed.bold,bgYellow.bold,bgCyan.bold,bgWhite.bold\" \"cd ../remotes/Customers && npm run start\" \"npm run start\""
   },
   "dependencies": {
-    "@gourban/ui-components": "^0.0.18",
+    "@gourban/ui-components": "^0.0.19",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-knobs": "^6.3.1",
