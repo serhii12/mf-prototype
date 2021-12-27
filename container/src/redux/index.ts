@@ -16,7 +16,7 @@ const reducer = persistReducer({ key: 'state', storage, whitelist: ['auth'] }, c
 //  Preparing middleware for store
 let middleware = null;
 if (process.env.NODE_ENV === 'development') {
-  middleware = composeWithDevTools(applyMiddleware(createLogger(), thunk));
+  middleware = composeWithDevTools(applyMiddleware(thunk, createLogger()));
 } else {
   middleware = composeWithDevTools(applyMiddleware(thunk));
 }

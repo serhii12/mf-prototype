@@ -12,9 +12,13 @@ const Example = (): JSX.Element => {
   const { fetchExampleAction, deleteItem } = useAction();
   const [opened, setOpened] = useState(false);
 
-  const fetchExampleJSON = useCallback(() => {
-    fetchExampleAction();
-  }, []);
+  const fetchExampleJSON = useCallback(async () => {
+    try {
+      await fetchExampleAction();
+    } catch (e) {
+      console.error(e.message);
+    }
+  }, [fetchExampleAction]);
 
   const renderData = useCallback(() => {
     return someRandomData.map((item) => (

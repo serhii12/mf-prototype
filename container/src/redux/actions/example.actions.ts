@@ -8,17 +8,21 @@ import messagingService from '@core/utils/messagingService';
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
 export const fetchExampleAction = () => async (dispatch: Dispatch<Actions>) => {
-  const response = await axios.get<ExampleDataInterface[]>(url);
+  try {
+    const response = await axios.get<ExampleDataInterface[]>(url);
 
-  dispatch({
-    type: ActionTypes.THIS_IS_EXAMPLE_REDUCER,
-    payload: response.data
-  });
+    dispatch({
+      type: ActionTypes.THIS_IS_EXAMPLE_REDUCER,
+      payload: response.data
+    });
 
-  messagingService.sendMessageToRemotes({
-    type: MessageTypes.BRANCH_CHANGED,
-    data: { newActiveBranch: '54213' }
-  });
+    messagingService.sendMessageToRemotes({
+      type: MessageTypes.BRANCH_CHANGED,
+      data: { newActiveBranch: '54213' }
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
 };
 
 export const deleteItem = (id: number): ExampleDeleteInterface => {
