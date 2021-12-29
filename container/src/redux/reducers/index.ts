@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
-import exampleReducer from './example.reducer';
+import authReducer from './auth.reducers';
 import { StoreState } from '@ts/types/storeState.types';
 
 //  Combining all existing reducers
 const appReducer = combineReducers<StoreState>({
-  exampleReducer
+  auth: authReducer
 });
 
 const rootReducer = (state: any, action: any): any => {

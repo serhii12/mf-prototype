@@ -7,49 +7,57 @@ interface LoginFormInterface {
 }
 
 interface Values {
-  username: string;
+  email: string;
   password: string;
 }
 
 const LoginForm: React.FC<LoginFormInterface> = ({ onSubmit }) => {
   return (
     <Formik
-      initialValues={{ username: '', password: '' }}
+      initialValues={{ email: '', password: '' }}
       validate={(values) => {
         const errors: any = {};
-        if (values?.username?.length > 25) {
+        if (values?.email?.length > 25) {
           errors.username = 'Sorry.';
         }
 
         return errors;
       }}
-      onSubmit={(values: Values) => {
-        onSubmit(values);
+      onSubmit={async (values: Values) => {
+        try {
+          await onSubmit(values);
+        } catch (e) {
+          console.error(e.message);
+        }
       }}
     >
-      <Form>
-        <FormElements.Columns>
-          <FormElements.Column>
-            <FormElements.Text
-              name="username"
-              fieldAttr={{ id: 'username', placeholder: 'Enter username...' }}
-              fieldProps={{ label: 'Username' }}
-            />
-          </FormElements.Column>
+      {({ isSubmitting }) => {
+        return (
+          <Form>
+            <FormElements.Columns>
+              <FormElements.Column>
+                <FormElements.Text
+                  name="email"
+                  fieldAttr={{ id: 'email', placeholder: 'Enter email...' }}
+                  fieldProps={{ label: 'Email' }}
+                />
+              </FormElements.Column>
 
-          <FormElements.Column>
-            <FormElements.Password
-              name="password"
-              fieldAttr={{ id: 'password', placeholder: 'Enter password...' }}
-              fieldProps={{ label: 'Password' }}
-            />
-          </FormElements.Column>
-        </FormElements.Columns>
+              <FormElements.Column>
+                <FormElements.Password
+                  name="password"
+                  fieldAttr={{ id: 'password', placeholder: 'Enter password...' }}
+                  fieldProps={{ label: 'Password' }}
+                />
+              </FormElements.Column>
+            </FormElements.Columns>
 
-        <button data-cypress-id="login" type="submit">
-          Test
-        </button>
-      </Form>
+            <button data-cypress-id="login" type="submit">
+              {isSubmitting ? 'Loading...' : 'Submit'}
+            </button>
+          </Form>
+        );
+      }}
     </Formik>
   );
 };

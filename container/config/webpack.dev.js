@@ -17,6 +17,8 @@ const devConfig = {
   devServer: {
     port: 3000,
     open: true,
+    compress: true,
+    allowedHosts: 'all',
     historyApiFallback: true,
     client: {
       overlay: {
@@ -39,8 +41,6 @@ const devConfig = {
       name: 'container',
       remotes: {
         'customers': 'customers@http://localhost:3100/remoteEntry.js',
-        "maps": "maps@http://localhost:3200/remoteEntry.js",
-        "mf3": "mf3@http://localhost:3300/remoteEntry.js"
       },
       shared: packageJson.dependencies,
     }),

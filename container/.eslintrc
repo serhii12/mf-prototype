@@ -15,6 +15,7 @@
     "JSX": true
   },
   "rules": {
+    "@typescript-eslint/indent": "off",
     "@typescript-eslint/default-param-last": "off",
     "import/extensions": "off",
     "import/no-extraneous-dependencies": "off",

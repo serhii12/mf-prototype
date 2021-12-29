@@ -1,5 +1,5 @@
-import { ExampleReducerInterface } from '@ts/types/example.types';
+import { AuthReducerInterface } from '@ts/types/auth.types';
 
 export interface StoreState {
-  exampleReducer: ExampleReducerInterface;
+  auth: AuthReducerInterface;
 }

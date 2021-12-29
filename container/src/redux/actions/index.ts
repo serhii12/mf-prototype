@@ -1,3 +1,3 @@
-import * as exampleActions from './example.actions';
+import * as authActions from './auth.actions';
 
-export default { ...exampleActions };
+export default { ...authActions };
