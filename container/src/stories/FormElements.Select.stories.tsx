@@ -7,14 +7,14 @@ import './index.scss';
 
 export default {
   title: 'UI Components/Form elements',
-  component: FormElements.Text
+  component: FormElements.Select
 };
 
 const codeSnippet = Prism.highlight(
   `<FormElements.Select
-        name="text_component" // field name - required field
+        name="select_component" // field name - required field
         fieldAttr={{
-          id: 'text_component', // input id - binds to label - required field
+          id: 'select_component', // input id - binds to label - required field
           disabled: false, // true | false
           required: false // true | false
           placeholder: 'Enter something...' // input placeholder,
@@ -22,7 +22,9 @@ const codeSnippet = Prism.highlight(
         }}
         fieldProps={{
           label: 'Some label', // input label - require field
-          clearable: true, // close icon ( button ) that clears the input value - true | false
+          options: [{ value: 'value', label: 'Some label' }], // Array of value/label pairs
+          clearable: true, // close icon ( button ) that removes all selected items - true | false
+          isMulti: false, // Is select component multiselect or not, true | false
         }}
   />`,
   Prism.languages.javascript,
@@ -33,35 +35,40 @@ const Template = (args) => {
   return (
     <>
       <header className="story-header">
-        <h1 className="story-header__title">Text Form element</h1>
+        <h1 className="story-header__title">Select Form element</h1>
         <p className="font-body-m">This is used for inputs that require text only</p>
       </header>
 
       <Formik
+        onSubmit={() => {}}
         validate={() => {
           const errors: any = {};
 
           if (args.triggerError) {
-            errors.username = 'You triggered some error';
+            errors.select_component = 'You triggered some error';
           } else {
-            errors.username = undefined;
+            errors.select_component = undefined;
           }
 
           return errors;
         }}
-        onSubmit={() => {}}
-        initialValues={{ username: '' }}
+        initialValues={{ select_component: '' }}
       >
         <Form>
-          <FormElements.Text
-            name="username"
+          <FormElements.Select
+            name="select_component"
             fieldAttr={{
-              id: 'username',
+              id: 'select_component',
               disabled: args.disabled,
-              required: args.required,
-              placeholder: args.placeholder
+              placeholder: args.placeholder,
+              required: args.required
             }}
-            fieldProps={{ label: args.label }}
+            fieldProps={{
+              label: args.label,
+              options: args.fieldProps.options,
+              clearable: args.clearable,
+              isMulti: args.multiple
+            }}
           />
         </Form>
       </Formik>
@@ -75,16 +82,20 @@ const Template = (args) => {
   );
 };
 
-export const Text = Template.bind({});
+export const Select = Template.bind({});
 // @ts-ignore
-Text.args = {
-  name: 'Username',
-  fieldAttr: {
-    id: 'username'
+Select.args = {
+  label: 'Normal select component',
+  fieldProps: {
+    options: [
+      { label: 'This is label #1', value: 'label_1' },
+      { label: 'This is label #2', value: 'label_2' }
+    ]
   },
-  placeholder: 'Enter username',
-  required: true,
+  placeholder: 'Some place holder...',
   disabled: false,
-  label: 'Username',
-  triggerError: false
+  clearable: true,
+  triggerError: false,
+  multiple: false,
+  required: false
 };

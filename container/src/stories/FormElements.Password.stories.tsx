@@ -1,12 +1,33 @@
 import React from 'react';
 import { FormElements } from '@gourban/ui-components';
 import { Form, Formik } from 'formik';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism-twilight.css';
 import './index.scss';
 
 export default {
   title: 'UI Components/Form elements',
   component: FormElements.Password
 };
+
+const codeSnippet = Prism.highlight(
+  `<FormElements.Select
+        name="password_component" // field name - required field
+        fieldAttr={{
+          id: 'password_component', // input id - binds to label - required field
+          disabled: false, // true | false
+          required: false // true | false
+          placeholder: 'Enter something...' // input placeholder,
+          className: 'some-extra-class' // extra css class if needed - string
+        }}
+        fieldProps={{
+          label: 'Some label', // input label - require field
+          clearable: true, // close icon ( button ) that clears the input value - true | false
+        }}
+  />`,
+  Prism.languages.javascript,
+  'javascript'
+);
 
 const Template = (args) => {
   return (
@@ -18,9 +39,7 @@ const Template = (args) => {
 
       <Formik
         validate={() => {
-          const errors = {
-            password: undefined
-          };
+          const errors: any = {};
 
           if (args.triggerError) {
             errors.password = 'You triggered some error';
@@ -38,29 +57,34 @@ const Template = (args) => {
             name="password"
             fieldAttr={{
               id: 'password',
-              disabled: args.fieldAttr.disabled,
-              required: args.fieldAttr.required,
-              placeholder: args.fieldAttr.placeholder
+              disabled: args.disabled,
+              required: args.required,
+              placeholder: args.placeholder
             }}
-            fieldProps={{ label: args.fieldProps.label }}
+            fieldProps={{ label: args.label }}
           />
         </Form>
       </Formik>
+
+      <br />
+
+      <pre className="language-js">
+        <code dangerouslySetInnerHTML={{ __html: codeSnippet }} />
+      </pre>
     </>
   );
 };
 
 export const Password = Template.bind({});
+// @ts-ignore
 Password.args = {
   name: 'password',
   fieldAttr: {
-    id: 'password',
-    disabled: false,
-    required: false,
-    placeholder: 'Enter password'
+    id: 'password'
   },
-  fieldProps: {
-    label: 'Password'
-  },
+  placeholder: 'Enter password',
+  required: true,
+  disabled: false,
+  label: 'Password',
   triggerError: false
 };
