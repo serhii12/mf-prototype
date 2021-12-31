@@ -1,6 +1,6 @@
 Cypress.Commands.add('login', (email, password) => {
   // Get username
-  cy.get('input[name="username"]').type(email);
+  cy.get('input[name="email"]').type(email);
 
   // Get password
   cy.get('input[name="password"]').type(password);

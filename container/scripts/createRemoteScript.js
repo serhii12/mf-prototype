@@ -59,6 +59,11 @@ const devConfig = {
             errors: true,
             warnings: false
           }
+      },
+       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
       }
     },
      output: {
@@ -175,7 +180,9 @@ const prodConfig = {
             filename:
                 'remoteEntry.js',
             exposes: {
-                './${capitalize(variables.remote_name)}App': './src/bootstrap'
+                './${capitalize(variables.remote_name)}App': './src/bootstrap_${capitalize(
+  variables.remote_name
+)}'
             },
             shared: packageJson.dependencies,
         }
@@ -200,21 +207,29 @@ import('./bootstrap_${variables.remote_name}')
 /**
  * Boilerplate code for container remote .tsx file
  */
-const REMOTE_BOILERPLATE = `import React, { useRef, useEffect } from 'react';
+const REMOTE_BOILERPLATE = `import React, { useRef, useEffect, useState } from 'react';
         import messagingService from '@core/utils/messagingService';
+        import { LOAD_MF } from '@core/utils/mf_helpers';
 
         export default (): JSX.Element => {
+          const [MFStatus, setMFStatus] = useState(null);
           const ref = useRef(null);
 
           useEffect(() => {
-            import('${variables.remote_name.toLowerCase()}/${capitalize(variables.remote_name)}App')
+            LOAD_MF('${variables.remote_name.toLowerCase()}/${capitalize(
+  variables.remote_name
+)}App')
               .then(({ mount }) => mount(ref.current, { subscribe: messagingService.subscribe, sendMessageToHost: messagingService.sendMessageToHost }))
               .catch(() => {
+                setMFStatus({ status: 'error', message: 'Something went wrong' });
                 throw new Error('${capitalize(variables.remote_name)} remote failed to load!');
               });
           }, []);
 
-          return <div ref={ref} />;
+          return <>
+            <div ref={ref} />
+            {MFStatus?.status === 'error' && MFStatus?.message}
+          </>;
         };
 `;
 
@@ -354,20 +369,18 @@ if (
     );
   }
 
-  // Typescript declaration file
-  const TS_REMOTES = fs.readFileSync(`${rootDir}/container/src/remotes/remotes-mf.ts`);
+  // Remote JSON paths
+  const REMOTE_PATHS = fs.readJsonSync(`${rootDir}/container/src/remotes/remote_paths.json`);
 
   // Add additional declaration to typscript file
-  fs.writeFile(
-    `${rootDir}/container/src/remotes/remotes-mf.ts`,
-    `${TS_REMOTES} declare module '${variables.remote_name.toLowerCase()}/${capitalize(
-      variables.remote_name
-    )}App';`,
-    function (err) {
-      if (err) {
-        throw new Error(err);
-      }
-    }
+  fs.writeJsonSync(
+    `${rootDir}/container/src/remotes/remote_paths.json`,
+    Object.assign(REMOTE_PATHS, {
+      ...REMOTE_PATHS,
+      [variables.remote_name.toLowerCase()]: `${variables.remote_name.toLowerCase()}@http://localhost:${
+        variables.on_port
+      }/remoteEntry.js`
+    })
   );
 
   // Add TS CSS Module support
@@ -384,25 +397,9 @@ if (
   console.info('\x1b[32mJob succeeded.');
   console.info('');
   console.info('\x1b[31mIMPORTANT:\x1b[0m');
-  console.info('There are few more steps to do:');
+  console.info('Please run npm install on created remote:');
   console.info(
-    ` 1. Please add the line bellow to ModuleFederation remotes in ${rootDir}/container/config/webpack.dev.js`
-  );
-  console.info(
-    ` \x1b[33m "${variables.remote_name.toLowerCase()}": "${variables.remote_name.toLowerCase()}@http://localhost:${
-      variables.on_port
-    }/remoteEntry.js"\x1b[0m`
-  );
-  console.info(
-    ` 2. Please add the line bellow to ModuleFederation remotes in ${rootDir}/container/config/webpack.prod.js`
-  );
-  console.info(
-    ` \x1b[33m "${variables.remote_name.toLowerCase()}": "${variables.remote_name.toLowerCase()}@http://{__DOMAIN_NAME__}:${
-      variables.on_port
-    }/remoteEntry.js"\x1b[0m`
-  );
-  console.info(
-    ` 3. Switch to ${rootDir}/remotes/${capitalize(variables.remote_name)} and run npm install.`
+    ` 1. Switch to ${rootDir}/remotes/${capitalize(variables.remote_name)} and run npm install.`
   );
   console.info(' ');
   console.info('Thats it, you can now import the component anywhere using:');

@@ -3,6 +3,8 @@ import restClient from '@core/utils/restClient';
 import { AuthInfoInterface, LoginCredentialTypes, LoginUserActions } from '@ts/types/auth.types';
 import { AuthActionTypes } from '@ts/enums/auth.enum';
 import { AxiosResponse } from 'axios';
+import messagingService from '@core/utils/messagingService';
+import { MessageTypes } from '@ts/enums/messagingService.enum';
 
 export const requestUserLogin =
   (formValues: LoginCredentialTypes) =>
@@ -15,6 +17,10 @@ export const requestUserLogin =
         formValues
       );
       dispatch({ type: AuthActionTypes.LOGIN_USER_SUCCESSFUL, payload: userData?.data });
+      messagingService.sendMessageToRemotes({
+        type: MessageTypes.USER_CHANGE,
+        data: userData?.data
+      });
 
       return userData;
     } catch (e) {

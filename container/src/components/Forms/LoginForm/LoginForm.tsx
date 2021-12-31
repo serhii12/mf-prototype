@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Formik, Form } from 'formik';
 import { FormElements } from '@gourban/ui-components';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormInterface {
   onSubmit: Function;
@@ -12,6 +13,8 @@ interface Values {
 }
 
 const LoginForm: React.FC<LoginFormInterface> = ({ onSubmit }) => {
+  const navigate = useNavigate();
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
@@ -26,6 +29,8 @@ const LoginForm: React.FC<LoginFormInterface> = ({ onSubmit }) => {
       onSubmit={async (values: Values) => {
         try {
           await onSubmit(values);
+
+          navigate('/');
         } catch (e) {
           console.error(e.message);
         }

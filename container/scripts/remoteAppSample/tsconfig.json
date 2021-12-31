@@ -13,10 +13,6 @@
     "importHelpers": true,
     "resolveJsonModule": true,
     "lib": ["es2018", "dom", "dom.iterable", "esnext"],
-    "paths": {
-      "@core/*": ["src/*"],
-      "@ts/*": ["src/ts/*"]
-    },
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["../node_modules/@types"],
     "types": ["node"]

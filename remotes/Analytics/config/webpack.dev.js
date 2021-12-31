@@ -3,9 +3,9 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
-const resolve = require('resolve');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
+const resolve = require('resolve');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const { MFLiveReloadPlugin } = require("@module-federation/fmr");
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -19,22 +19,34 @@ const devConfig = {
     // webpack 5 comes with devServer which loads in development mode
     devServer: {
         port: 3100,
-            historyApiFallback: true
+        historyApiFallback: true,
+        client: {
+          overlay: {
+            errors: true,
+            warnings: false
+          }
+      },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+      }
     },
      output: {
         publicPath: 'http://localhost:3100/'
     },
     // Rules of how webpack will take our files, complie & bundle them for the browser
     plugins: [    new MFLiveReloadPlugin({
-      port: 3000,
-      container: 'container'
+      port: 3100,
+      container: 'container',
+      standalone: false
     }),new ModuleFederationPlugin(
         {
-            name: 'customers',
+            name: 'analytics',
             filename:
                 'remoteEntry.js',
             exposes: {
-                './CustomersApp': './src/bootstrap'
+                './AnalyticsApp': './src/bootstrap_analytics'
             },
             shared: packageJson.dependencies,
         }

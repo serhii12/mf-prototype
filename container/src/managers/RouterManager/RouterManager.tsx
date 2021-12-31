@@ -4,6 +4,7 @@ import WhitelabelManager from '@core/managers/WhiteLabelManager';
 import Login from '@core/screens/Login';
 import { useSelector } from 'react-redux';
 import { isLoggedIn } from '@core/redux/selectors/auth.selectors';
+import AnalyticsRemote from '@core/remotes/AnalyticsRemote';
 
 /**
  * Private route is used to redirect user to login page if not authenticated
@@ -34,7 +35,7 @@ const RouterManager = (): JSX.Element => {
           path="/"
           element={
             <PrivateRoute>
-              <Login />
+              <AnalyticsRemote />
             </PrivateRoute>
           }
         />

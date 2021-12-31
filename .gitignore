@@ -5,7 +5,7 @@
 /node_modules
 /container/node_modules
 /remotes/**/node_modules
-/container/scripts
+#/container/scripts
 /container/cypress/screenshots
 /container/cypress/videos
 /container/dist

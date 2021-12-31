@@ -39,9 +39,6 @@ const devConfig = {
     }),
     new ModuleFederationPlugin({
       name: 'container',
-      remotes: {
-        'customers': 'customers@http://localhost:3100/remoteEntry.js',
-      },
       shared: packageJson.dependencies,
     }),
     new HtmlWebpackPlugin({

@@ -4,8 +4,8 @@ const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPl
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 const { merge } = require('webpack-merge');
-const path = require("path");
 const fs = require("fs");
+const path = require("path");
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
@@ -21,11 +21,11 @@ const prodConfig = {
     // Rules of how webpack will take our files, complie & bundle them for the browser
     plugins: [ new ModuleFederationPlugin(
         {
-            name: 'customers',
+            name: 'analytics',
             filename:
                 'remoteEntry.js',
             exposes: {
-                './CustomersApp': './src/bootstrap'
+                './AnalyticsApp': './src/bootstrap_analytics'
             },
             shared: packageJson.dependencies,
         }
