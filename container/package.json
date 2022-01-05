@@ -12,7 +12,8 @@
     "cy:run": "cypress run",
     "test": "npm run cy:run cypress/integration/**/*.spec.js",
     "remotes:analytics": "concurrently -n \"analytics,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Analytics && npm run start\" \"npm run start\"",
-    "test_environment": "concurrently -n \"analytics,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgRed.bold,bgYellow.bold,bgCyan.bold,bgWhite.bold\" \"cd ../remotes/Analytics && npm run start\" \"npm run start\""
+    "test_environment": "concurrently -n \"analytics,settings,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold,bgRed.bold,bgYellow.bold,bgCyan.bold,bgWhite.bold\" \"cd ../remotes/Analytics && npm run start\" \"cd ../remotes/Settings && npm run start\" \"npm run start\"",
+    "remotes:settings": "concurrently -n \"settings,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Settings && npm run start\" \"npm run start\""
   },
   "dependencies": {
     "@gourban/ui-components": "^0.0.20",

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "module": "es2020",
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "target": "esnext",
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "lib": ["es2018", "dom", "dom.iterable", "esnext"],
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["../node_modules/@types"],
+    "types": ["node"]
+  }
+}
