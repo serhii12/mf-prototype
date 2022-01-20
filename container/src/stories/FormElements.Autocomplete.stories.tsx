@@ -8,7 +8,13 @@ import './index.scss';
 
 export default {
   title: 'UI Components/Form elements',
-  component: FormElements.Select
+  component: FormElements.Select,
+  argTypes: {
+    iconPosition: {
+      options: ['left', 'right'],
+      control: { type: 'radio' }
+    }
+  }
 };
 
 const codeSnippet = Prism.highlight(
@@ -31,14 +37,18 @@ const codeSnippet = Prism.highlight(
               }
           }, // Object containing autocomplete needed data
           clearable: true, // close icon ( button ) that removes all selected items - true | false
-          isMulti: false, // Is select component multiselect or not, true | false
+          isMulti: false, // Is select component multiselect or not, true | false,
+          prefix: '$', // prefix displayed before input element
+          suffix: '$', // suffix displayed after input element
+          icon: 'approve' // icon name, name must be one of icons from style guide
+          iconPosition: 'right' // position of the icon, left or right
         }}
   />`,
   Prism.languages.javascript,
   'javascript'
 );
 
-const Template = (args, args2, args3) => {
+const Template = (args) => {
   return (
     <>
       <header className="story-header">
@@ -81,7 +91,11 @@ const Template = (args, args2, args3) => {
                 }
               },
               clearable: args.clearable,
-              isMulti: args.multiple
+              isMulti: args.multiple,
+              prefix: args.prefix,
+              suffix: args.suffix,
+              icon: args.icon,
+              iconPosition: args.iconPosition
             }}
           />
         </Form>
@@ -110,6 +124,10 @@ Autocomplete.args = {
   disabled: false,
   clearable: true,
   triggerError: false,
+  prefix: '',
+  suffix: '',
+  icon: '',
+  iconPosition: 'right',
   multiple: false,
   required: false
 };

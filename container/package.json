@@ -16,7 +16,7 @@
     "remotes:settings": "concurrently -n \"settings,container\"  -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"cd ../remotes/Settings && npm run start\" \"npm run start\""
   },
   "dependencies": {
-    "@gourban/ui-components": "^0.0.20",
+    "@gourban/ui-components": "0.0.21",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-knobs": "^6.3.1",

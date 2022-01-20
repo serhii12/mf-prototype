@@ -7,11 +7,17 @@ import './index.scss';
 
 export default {
   title: 'UI Components/Form elements',
-  component: FormElements.Text
+  component: FormElements.Text,
+  argTypes: {
+    iconPosition: {
+      options: ['left', 'right'],
+      control: { type: 'radio' }
+    }
+  }
 };
 
 const codeSnippet = Prism.highlight(
-  `<FormElements.Select
+  `<FormElements.Text
         name="text_component" // field name - required field
         fieldAttr={{
           id: 'text_component', // input id - binds to label - required field
@@ -23,6 +29,10 @@ const codeSnippet = Prism.highlight(
         fieldProps={{
           label: 'Some label', // input label - require field
           clearable: true, // close icon ( button ) that clears the input value - true | false
+          prefix: '$', // prefix displayed before input element
+          suffix: '$' // suffix displayed after input element,
+          icon: 'approve' // icon name, name must be one of icons from style guide,
+          iconPosition: 'right' // position of the icon, left or right
         }}
   />`,
   Prism.languages.javascript,
@@ -61,7 +71,13 @@ const Template = (args) => {
               required: args.required,
               placeholder: args.placeholder
             }}
-            fieldProps={{ label: args.label }}
+            fieldProps={{
+              label: args.label,
+              prefix: args.prefix,
+              suffix: args.suffix,
+              icon: args.icon,
+              iconPosition: args.iconPosition
+            }}
           />
         </Form>
       </Formik>
@@ -85,6 +101,10 @@ Text.args = {
   placeholder: 'Enter username',
   required: true,
   disabled: false,
+  prefix: '',
+  suffix: '',
+  icon: 'approve',
+  iconPosition: 'right',
   label: 'Username',
   triggerError: false
 };
