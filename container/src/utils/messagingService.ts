@@ -9,7 +9,7 @@ const messagingService = {
   subscribe: (fn: Function): void => {
     window.addEventListener('hostMessage', (data: any) => fn(data?.detail));
   },
-  subscribeToHost: (fn: Function): void => {
+  subscribeToRemotes: (fn: Function): void => {
     window.addEventListener('hostReceivingMessage', (data: any) => fn(data?.detail));
   },
   sendMessageToRemotes: (data: RemotesMessageInterface): void => {

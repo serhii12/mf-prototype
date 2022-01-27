@@ -207,19 +207,53 @@ import('./bootstrap_${variables.remote_name}')
 /**
  * Boilerplate code for container remote .tsx file
  */
-const REMOTE_BOILERPLATE = `import React, { useRef, useEffect, useState } from 'react';
+const REMOTE_BOILERPLATE = `import React, { useRef, useEffect, useState, useMemo } from 'react';
         import messagingService from '@core/utils/messagingService';
         import { LOAD_MF } from '@core/utils/mf_helpers';
+        import { useNavigate } from 'react-router-dom';
+        import { useLocation } from 'react-router-dom';
 
         export default (): JSX.Element => {
           const [MFStatus, setMFStatus] = useState(null);
           const ref = useRef(null);
+          const locationRef = useRef(null);
+          const location = useLocation();
+          const navigate = useNavigate();
+        
+          const onNavigate = (nextLocation) => {
+        if (locationRef.current.pathname !== nextLocation.location.pathname) {
+          if (nextLocation.location.pathname === '/') {
+            navigate('/${variables.remote_name}');
+          } else {
+            navigate(nextLocation.location.pathname);
+          }
+        }
+        };
+        
+        const messagingServiceObj = useMemo(
+        () => ({
+          subscribe: messagingService.subscribe,
+          sendMessageToHost: messagingService.sendMessageToHost
+        }),
+        []
+        );
+        
+        useEffect(() => {
+        locationRef.current = location;
+        }, [location]);
 
           useEffect(() => {
             LOAD_MF('${variables.remote_name.toLowerCase()}/${capitalize(
   variables.remote_name
 )}App')
-              .then(({ mount }) => mount(ref.current, { subscribe: messagingService.subscribe, sendMessageToHost: messagingService.sendMessageToHost }))
+              .then(({ mount }) => {
+                mount({
+                  el: ref.current,
+                  messagingService: messagingServiceObj,
+                  onNavigate,
+                  initialPath: locationRef.current.pathname
+                });
+              })
               .catch(() => {
                 setMFStatus({ status: 'error', message: 'Something went wrong' });
                 throw new Error('${capitalize(variables.remote_name)} remote failed to load!');
@@ -232,6 +266,46 @@ const REMOTE_BOILERPLATE = `import React, { useRef, useEffect, useState } from '
           </>;
         };
 `;
+
+/**
+ *
+ */
+const APP_BOILERPLATE = `import React, { useLayoutEffect } from 'react';
+import { Router, Routes, Route } from 'react-router-dom';
+
+interface AppProps {
+  history: any;
+  messagingService: any;
+}
+
+const App: React.FC<AppProps> = ({ history }) => {
+  let [state, setState] = React.useState({
+    action: history.action,
+    location: history.location
+  });
+
+  useLayoutEffect(() => {
+    history.listen(setState);
+  }, []);
+
+  return (
+    <Router
+      basename="${variables.remote_name}"
+      navigator={history}
+      navigationType={state.action}
+      location={state.location}
+    >
+      <Routes>
+        <Route path="/" element={<h1>Welcome to ${capitalize(variables.remote_name)} remote!</h1>} />
+
+        <Route path="*" element={<h1>404 Error</h1>} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
+`
 
 /**
  * Boilerplate code for container remote .ts file
@@ -294,6 +368,17 @@ if (
   fs.outputFile(
     `${rootDir}/remotes/${capitalize(variables.remote_name)}/config/webpack.dev.js`,
     WEBPACK_DEV,
+    function (err) {
+      if (err) {
+        throw new Error(err);
+      }
+    }
+  );
+
+  // Create App.tsx  file with boilerplate
+  fs.outputFile(
+    `${rootDir}/remotes/${capitalize(variables.remote_name)}/src/App.tsx`,
+      APP_BOILERPLATE,
     function (err) {
       if (err) {
         throw new Error(err);

@@ -4,19 +4,26 @@ import Login from '@core/screens/Login';
 interface RoutesInterface {
   path: string;
   element: any;
-  private: boolean;
+  key: string;
+  guarded: boolean;
+  isRemote?: boolean;
+  availableOnAuth?: boolean;
 }
 
 const routes: RoutesInterface[] = [
   {
     path: '/login',
+    key: 'Login',
     element: Login,
-    private: false
+    guarded: false,
+    availableOnAuth: false
   },
   {
-    path: '/',
+    path: '/analytics',
+    key: 'AnalyticsRemote',
     element: AnalyticsRemote,
-    private: true
+    guarded: true,
+    isRemote: true
   }
 ];
 

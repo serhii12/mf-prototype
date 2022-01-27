@@ -30,7 +30,7 @@ const LoginForm: React.FC<LoginFormInterface> = ({ onSubmit }) => {
         try {
           await onSubmit(values);
 
-          navigate('/');
+          navigate('/analytics');
         } catch (e) {
           console.error(e.message);
         }

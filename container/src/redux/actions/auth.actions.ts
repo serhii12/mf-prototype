@@ -1,6 +1,11 @@
 import { Dispatch } from 'redux';
 import restClient from '@core/utils/restClient';
-import { AuthInfoInterface, LoginCredentialTypes, LoginUserActions } from '@ts/types/auth.types';
+import {
+  AuthInfoInterface,
+  LoginCredentialTypes,
+  LoginUserActions,
+  LogoutUserActions
+} from '@ts/types/auth.types';
 import { AuthActionTypes } from '@ts/enums/auth.enum';
 import { AxiosResponse } from 'axios';
 import messagingService from '@core/utils/messagingService';
@@ -28,3 +33,7 @@ export const requestUserLogin =
       throw new Error(e);
     }
   };
+
+export const requestSignOut = () => (dispatch: Dispatch<LogoutUserActions>) => {
+  dispatch({ type: AuthActionTypes.START_LOGOUT_USER });
+};

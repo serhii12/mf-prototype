@@ -7,13 +7,16 @@ import { BrowserRouter } from 'react-router-dom';
 import RouterManager from '@core/managers/RouterManager/RouterManager';
 import '@core/assets/scss/index.scss';
 
-ReactDOM.render(
-  <PersistGate persistor={persistor}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <RouterManager />
-      </BrowserRouter>
-    </Provider>
-  </PersistGate>,
-  document.querySelector('#root')
-);
+const App = () => {
+  return (
+    <PersistGate persistor={persistor}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <RouterManager />
+        </BrowserRouter>
+      </Provider>
+    </PersistGate>
+  );
+};
+
+ReactDOM.render(<App />, document.querySelector('#root'));

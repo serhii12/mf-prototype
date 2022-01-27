@@ -1,5 +1,5 @@
 import { AuthActionTypes } from '@ts/enums/auth.enum';
-import { AuthReducerInterface, LoginUserActions } from '@ts/types/auth.types';
+import { AuthReducerInterface, LoginUserActions, LogoutUserActions } from '@ts/types/auth.types';
 
 const initialState: AuthReducerInterface = {
   authInfo: null,
@@ -9,7 +9,7 @@ const initialState: AuthReducerInterface = {
 
 export default (
   state: AuthReducerInterface = initialState,
-  action: LoginUserActions
+  action: LoginUserActions | LogoutUserActions
 ): AuthReducerInterface => {
   switch (action.type) {
     case AuthActionTypes.START_LOGIN_USER: {
@@ -24,6 +24,13 @@ export default (
         ...state,
         authInfo: action.payload,
         loader: false
+      };
+    }
+
+    case AuthActionTypes.START_LOGOUT_USER: {
+      return {
+        ...state,
+        authInfo: null
       };
     }
 

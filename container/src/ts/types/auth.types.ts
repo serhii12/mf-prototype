@@ -5,6 +5,10 @@ export interface LoginCredentialTypes {
   password: string;
 }
 
+export interface LogoutUserRequest {
+  type: AuthActionTypes.START_LOGOUT_USER;
+}
+
 export interface LoginUserRequest {
   type: AuthActionTypes.START_LOGIN_USER;
 }
@@ -39,3 +43,5 @@ export type LoginUserActions =
   | LoginUserSuccessInterface
   | LoginUserFailedInterface
   | LoginUserRequest;
+
+export type LogoutUserActions = LogoutUserRequest;

@@ -7,11 +7,11 @@ import routes from '@core/managers/RouterManager/routes';
 import Layout from '@core/components/Layout';
 
 /**
- * Private route is used to redirect user to login page if not authenticated
+ * Auth guard is used to redirect user to login page if not authenticated
  * @param children
  * @return JSXElement
  */
-const PrivateRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
+const AuthGuard = ({ children }: { children: JSX.Element }): JSX.Element => {
   const userAuthenticated: boolean = useSelector(isLoggedIn);
   const location = useLocation();
 
@@ -23,33 +23,72 @@ const PrivateRoute = ({ children }: { children: JSX.Element }): JSX.Element => {
 };
 
 const RouterManager = (): JSX.Element => {
+  const userAuthenticated: boolean = useSelector(isLoggedIn);
+
   return (
     <>
       <WhitelabelManager />
       <Routes>
         {/* PUBLIC ROUTES */}
         {routes
-          .filter((route) => !route?.private)
+          .filter((route) => !route?.guarded)
           .map((route) => (
-            <Route key={route.path} path={route.path} element={<route.element />} />
+            <Route
+              key={route.key}
+              path={route.path}
+              element={
+                !route.availableOnAuth && userAuthenticated ? (
+                  <Navigate to="/" />
+                ) : (
+                  <route.element />
+                )
+              }
+            />
           ))}
 
-        {/* PRIVATE ROUTERS */}
+        {/* PRIVATE ROUTES */}
         <Route path="/" element={<Layout />}>
           {routes
-            .filter((route) => !!route?.private)
+            .filter((route) => !!route?.guarded && !route.isRemote)
             .map((route) => (
               <Route
-                key={route.path}
+                key={route.key}
                 path={route.path}
                 element={
-                  <PrivateRoute>
+                  <AuthGuard>
                     <route.element />
-                  </PrivateRoute>
+                  </AuthGuard>
                 }
               />
             ))}
         </Route>
+
+        {/* REMOTE ROUTES */}
+        {routes
+          .filter((route) => !!route?.guarded && !!route?.isRemote)
+          .map((route) => (
+            <Route path={route.path} key={route.path} element={<Layout />}>
+              <Route
+                index
+                element={
+                  <AuthGuard>
+                    <route.element />
+                  </AuthGuard>
+                }
+              />
+
+              <Route
+                path="*"
+                element={
+                  <AuthGuard>
+                    <route.element />
+                  </AuthGuard>
+                }
+              />
+            </Route>
+          ))}
+
+        <Route path="*" element={<h1>404 Error!</h1>} />
       </Routes>
     </>
   );

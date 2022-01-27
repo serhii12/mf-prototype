@@ -1,28 +1,37 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createMemoryHistory, Listener } from 'history';
+// @ts-ignore
+import App from './App';
 
-interface MessengingService {
+interface MessagingService {
   subscribe: Function;
   sendMessageToHost: Function;
 }
 
+interface MountProps {
+  el: HTMLElement;
+  messagingService: MessagingService;
+  onNavigate: Listener;
+  initialPath: string;
+}
+
 // Mount function to start up the app
-const mount = (el: any, messengingService: MessengingService) => {
-  if (messengingService) {
-    messengingService.subscribe((receivedData) => console.info(receivedData));
+const mount = ({ el, messagingService, onNavigate, initialPath }: MountProps) => {
+  if (messagingService) {
+    // When mount is called subscribe to container via messagingService if provided
+    // This enables the communication between Container and Microfrontend
+    messagingService.subscribe((receivedData) => console.info(receivedData));
   }
 
-  const sendMessageToHost = () => {
-    messengingService.sendMessageToHost('Something should change after this.');
-  };
+  // Container app is using BrowserHistory, remote apps need to use memoryHistory
+  const history = createMemoryHistory({ initialEntries: [initialPath] });
 
-  ReactDOM.render(
-    <h1>
-      This is a new Remote{' '}
-      <button onClick={sendMessageToHost}>Click here to send message to host!</button>
-    </h1>,
-    el
-  );
+  // Listen to change in navigation directed by remote app and update container app
+  // This is done to keep container app up to date on current link active
+  history.listen(onNavigate);
+
+  ReactDOM.render(<App history={history} messagingService={messagingService} />, el);
 };
 
 // We are running through container
