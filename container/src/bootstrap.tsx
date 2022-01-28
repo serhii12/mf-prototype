@@ -5,12 +5,14 @@ import { store, persistor } from '@core/redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import RouterManager from '@core/managers/RouterManager/RouterManager';
+import { NotificationProvider } from '@gourban/ui-components';
 import '@core/assets/scss/index.scss';
 
 const App = () => {
   return (
     <PersistGate persistor={persistor}>
       <Provider store={store}>
+        <NotificationProvider />
         <BrowserRouter>
           <RouterManager />
         </BrowserRouter>
